@@ -16,7 +16,7 @@ You are very welcome if you feel that can contribute with more utilities to take
 
 ## Usage
 
-# The following example shows how to use the Tracing class with Selenium Webdriver.
+The following example shows how to use the Tracing class with Selenium Webdriver.
 
 ```js
 
@@ -53,7 +53,7 @@ test('Test tracing', async () => {
 
 ```
 
-# An example using the Performance class with Selenium Webdriver.
+An example using the Performance class with Selenium Webdriver.
 
 ```js
 
