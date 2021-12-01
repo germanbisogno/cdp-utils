@@ -2,7 +2,9 @@
 
 ### A set of utilities/wrapper for Test Automation or Performance testing on top of Chrome DevTools Protocol [CDP](https://chromedevtools.github.io/devtools-protocol/)
 
-![Basic-Diagram](images/Basic-Diagram.png)
+<p align="center">
+  <img src="images/Basic-Diagram.png" />
+</p>
 
 ## Inspiration
 
