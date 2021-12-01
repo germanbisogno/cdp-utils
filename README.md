@@ -2,6 +2,8 @@
 
 ### A set of utilities/wrapper for Test Automation or Performance testing on top of Chrome DevTools Protocol [CDP](https://chromedevtools.github.io/devtools-protocol/)
 
+![Basic-Diagram](images/Basic-Diagram.png)
+
 ## Inspiration
 
 It has been inspired in the power of CDP to interact with the browser like you would do using chrome dev tools but programmatically, **this library is independent of any test automation framework** since it talks directly with chrome using `--remote-debugging-port` commonly 9222 port.  There are situations when we need to emulate or collect information from the browser during the execution of e2e tests.  This lib intends to be an utility for testing purposes without the need to program each functionality.
