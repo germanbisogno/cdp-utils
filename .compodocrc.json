@@ -1,0 +1,8 @@
+{
+    "theme": "postmark",
+    "disableRoutesGraph": true,
+    "hideGenerator": true,
+    "disableGraph": true,
+    "disableLifeCycleHooks": true,
+    "name": "CDP utils documentation"
+}

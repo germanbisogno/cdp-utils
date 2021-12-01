@@ -1,0 +1,25 @@
+{
+    "tracing": {
+        "traceConfig": {
+            "includedCategories": [
+                "-*",
+                "toplevel",
+                "blink.console",
+                "blink.user_timing",
+                "benchmark",
+                "loading",
+                "latencyInfo",
+                "devtools.timeline",
+                "disabled-by-default-devtools.timeline",
+                "disabled-by-default-devtools.timeline.frame",
+                "disabled-by-default-devtools.timeline.stack",
+                "disabled-by-default-devtools.screenshot"
+            ],
+            "excludedCategories": [
+                "-*"
+            ]
+        }
+    },
+    "cdpPort": 9222,
+    "maxTimeout": 10000
+}
