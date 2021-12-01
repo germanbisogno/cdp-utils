@@ -20,6 +20,7 @@ test('Test Geolocation', async () => {
     const googlePage = new GooglePage(driver);
 
     const client = await CDPClient.init();
+
     const geoLocation = new GeoLocation(client);
     await geoLocation.emulateGeoLocation({
         accuracy: 100,

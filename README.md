@@ -31,7 +31,7 @@ test('Test tracing', async () => {
     // Initializes the CDP client connection
     const client = await CDPClient.init();
 
-    // Intantiates the class and produces a file as result of the trace
+    // Instantiates the class and produces a file as result of the trace
     const tracing = new Tracing(client, 'trace.json');
 
     // start tracing
@@ -68,7 +68,7 @@ test('Test performance', async () => {
     // Initializes the CDP client connection
     const client = await CDPClient.init();
     
-    // Intantiates the class and produces a file as result of the trace
+    // Instantiates the class and produces a file as result of the trace
     const performance = new Performance(client, 'performance.json');
 
     // start tracing
