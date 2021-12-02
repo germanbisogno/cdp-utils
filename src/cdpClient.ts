@@ -1,5 +1,5 @@
 import * as CDP from "chrome-remote-interface";
-import * as config from '../config/config.json'
+import { config } from "./config/config";
 
 export class CDPClient {
     private static _client: CDP.Client;

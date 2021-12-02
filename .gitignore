@@ -1,6 +1,7 @@
 /node_modules
-/lib
+/dist
 /documentation
 package-lock.json
 *.har
+*.tgz
 trace.json

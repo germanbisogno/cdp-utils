@@ -1,16 +1,17 @@
 import * as fs from 'fs';
-import * as config from '../config/config.json'
-import { TraceOperations } from './interfaces/traceOperations'
+import { config } from "./config/config";
+import { TraceOperations } from './traceOperations'
 import CDP = require('chrome-remote-interface');
 import * as logger from 'winston';
 import { Protocol } from 'devtools-protocol';
 
-export class Tracing implements TraceOperations {
+export class Tracing extends TraceOperations {
     private _client: CDP.Client;
     private _events: Protocol.Tracing.DataCollectedEvent[] = [];
     private _traceFileName: string | undefined;
 
     constructor(client: CDP.Client, traceFileName?: string) {
+        super();
         this._client = client;
         this._traceFileName = traceFileName;
     }

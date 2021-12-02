@@ -4,7 +4,7 @@ import 'chromedriver';
 import { CDPClient } from "../cdpClient";
 import { GooglePage } from '../pages/googlePage';
 import { GeoLocation } from '../geoLocation';
-import * as config from '../../config/config.json'
+import { config } from "../config/config";
 
 const options = new chrome.Options();
 

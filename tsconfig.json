@@ -3,7 +3,7 @@
         "target": "es5",
         "module": "commonjs",
         "declaration": true,
-        "outDir": "./lib",
+        "outDir": "./dist",
         "strict": true,
         "resolveJsonModule": true,
     },
@@ -12,6 +12,7 @@
     ],
     "exclude": [
         "node_modules",
-        "**/__tests__/*"
+        "**/__tests__/*",
+        "**/pages"
     ]
 }
