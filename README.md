@@ -49,7 +49,7 @@ test('Test tracing', async () => {
     // do whatever with trace
 
     // Close the CDP client connection
-    await CDPClient.close()
+    await cdpClient.close()
 
     await driver.quit();
 
@@ -86,7 +86,7 @@ test('Test performance', async () => {
     // do whatever with perf
 
     // Close the CDP client connection
-    await CDPClient.close()
+    await cdpClient.close()
 
     await driver.quit();
 }
