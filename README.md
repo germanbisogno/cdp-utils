@@ -2,7 +2,9 @@
 
 ### A set of utilities/wrapper for Test Automation or Performance testing on top of Chrome DevTools Protocol [CDP](https://chromedevtools.github.io/devtools-protocol/)
 
-![Basic-Diagram](images/Basic-Diagram.png)
+<p align="center">
+  <img src="images/Basic-Diagram.png" />
+</p>
 
 ## Inspiration
 
@@ -22,8 +24,7 @@ The following example shows how to use the Tracing class with Selenium Webdriver
 
 ```js
 
-import { CDPClient } from "../cdpClient";
-import { Tracing } from '../tracing';
+import { CDPClient, Tracing } from "cdp-utils";
 
 test('Test tracing', async () => {
     const driver = await new Builder().forBrowser('chrome')
@@ -31,7 +32,8 @@ test('Test tracing', async () => {
         .build();
 
     // Initializes the CDP client connection
-    const client = await CDPClient.init();
+    const cdpClient = new CDPClient();
+    const client = await cdpClient.init(port);
 
     // Instantiates the class and produces a file as result of the trace
     const tracing = new Tracing(client, 'trace.json');
@@ -47,7 +49,7 @@ test('Test tracing', async () => {
     // do whatever with trace
 
     // Close the CDP client connection
-    await CDPClient.close()
+    await cdpClient.close()
 
     await driver.quit();
 
@@ -59,8 +61,7 @@ An example using the Performance class with Selenium Webdriver.
 
 ```js
 
-import { CDPClient } from "../cdpClient";
-import { Performance } from '../performance';
+import { CDPClient, Performance } from "cdp-utils";
 
 test('Test performance', async () => {
     const driver = await new Builder().forBrowser('chrome')
@@ -68,7 +69,8 @@ test('Test performance', async () => {
         .build();
 
     // Initializes the CDP client connection
-    const client = await CDPClient.init();
+    const cdpClient = new CDPClient();
+    const client = await cdpClient.init(port);
     
     // Instantiates the class and produces a file as result of the trace
     const performance = new Performance(client, 'performance.json');
@@ -84,7 +86,7 @@ test('Test performance', async () => {
     // do whatever with perf
 
     // Close the CDP client connection
-    await CDPClient.close()
+    await cdpClient.close()
 
     await driver.quit();
 }

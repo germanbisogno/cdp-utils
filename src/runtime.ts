@@ -1,15 +1,16 @@
 import CDP = require("chrome-remote-interface");
-import * as logger from 'winston';
+import { logger } from "./utils/logger";
 import * as fs from 'fs';
-import { TraceOperations } from "./interfaces/traceOperations";
+import { TraceOperations } from "./traceOperations";
 import { Protocol } from 'devtools-protocol';
 
-export class Runtime implements TraceOperations {
+export class Runtime extends TraceOperations {
     private _client: CDP.Client;
     private _consoleLogEntries: Protocol.Runtime.ConsoleAPICalledEvent[] = [];
     private _traceFileName: string | undefined;
 
     constructor(client: CDP.Client, traceFileName?: string) {
+        super();
         this._client = client;
         this._traceFileName = traceFileName;
     }

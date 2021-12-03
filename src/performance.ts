@@ -1,14 +1,15 @@
 import CDP = require('chrome-remote-interface');
-import { TraceOperations } from './interfaces/traceOperations'
-import * as logger from 'winston';
+import { TraceOperations } from './traceOperations'
+import { logger } from "./utils/logger";
 import { Protocol } from 'devtools-protocol';
 import * as fs from 'fs';
 
-export class Performance implements TraceOperations {
+export class Performance extends TraceOperations {
     private _client: CDP.Client;
     private _traceFileName: string | undefined;
 
     constructor(client: CDP.Client, traceFileName?: string) {
+        super();
         this._client = client;
         this._traceFileName = traceFileName;
     }

@@ -1,6 +1,7 @@
 import CDP = require("chrome-remote-interface");
-import * as logger from 'winston';
+
 import { Coordinates } from './interfaces/coordinates'
+import { logger } from "./utils/logger";
 
 export class GeoLocation {
     private _client: CDP.Client;

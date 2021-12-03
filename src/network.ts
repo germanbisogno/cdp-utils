@@ -1,8 +1,8 @@
 import * as fs from 'fs';
 import { harFromMessages } from 'chrome-har';
-import { TraceOperations } from './interfaces/traceOperations'
+import { TraceOperations } from './traceOperations'
 import CDP = require('chrome-remote-interface');
-import * as logger from 'winston';
+import { logger } from "./utils/logger";
 import { NetworkConditions } from './interfaces/networkConditions';
 
 // event types to observe
@@ -71,12 +71,13 @@ export const NETWORK_PRESETS = {
     }
 }
 
-export class Network implements TraceOperations {
+export class Network extends TraceOperations {
     private _client: CDP.Client;
     private _events: any[] = [];
     private _traceFileName: string | undefined;
 
     constructor(client: CDP.Client, traceFileName?: string) {
+        super();
         this._client = client;
         this._traceFileName = traceFileName;
     }
