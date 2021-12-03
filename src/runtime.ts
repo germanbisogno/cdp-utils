@@ -1,5 +1,5 @@
 import CDP = require("chrome-remote-interface");
-import * as logger from 'winston';
+import { logger } from "./utils/logger";
 import * as fs from 'fs';
 import { TraceOperations } from "./traceOperations";
 import { Protocol } from 'devtools-protocol';

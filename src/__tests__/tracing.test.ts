@@ -1,4 +1,4 @@
-import { Builder, WebDriver } from "selenium-webdriver";
+import { Builder } from "selenium-webdriver";
 import * as chrome from "selenium-webdriver/chrome";
 import 'chromedriver';
 import { CDPClient } from "../cdpClient";
@@ -8,23 +8,18 @@ import { config } from "../config/config";
 import { getFreePort } from 'endpoint-utils';
 
 jest.setTimeout(config.maxTimeout);
-let driver: WebDriver;
-let port: number;
 
-beforeEach(async () => {
+test('Test Tracing', async () => {
 
-    port = await getFreePort();
+    const port = await getFreePort();
     const options = new chrome.Options();
 
     options.addArguments(`--remote-debugging-port=${port}`);
 
-    driver = await new Builder().forBrowser('chrome')
+    const driver = await new Builder().forBrowser('chrome')
         .setChromeOptions(options)
         .build();
-});
 
-
-test('Test Tracing', async () => {
     const googlePage = new GooglePage(driver);
 
     const cdpClient = new CDPClient();
@@ -40,8 +35,6 @@ test('Test Tracing', async () => {
     await tracing.stopTrace();
     await cdpClient.close();
 
+    await driver.quit();
 });
 
-afterEach(async () => {
-    await driver.quit()
-});

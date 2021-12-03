@@ -8,22 +8,17 @@ import { config } from "../config/config";
 import { getFreePort } from 'endpoint-utils';
 
 jest.setTimeout(config.maxTimeout);
-let driver: WebDriver;
-let port: number;
 
-beforeEach(async () => {
+test('Test Network', async () => {
 
-    port = await getFreePort();
+    const port = await getFreePort();
     const options = new chrome.Options();
 
     options.addArguments(`--remote-debugging-port=${port}`);
 
-    driver = await new Builder().forBrowser('chrome')
+    const driver = await new Builder().forBrowser('chrome')
         .setChromeOptions(options)
         .build();
-});
-
-test('Test Network', async () => {
 
     const googlePage = new GooglePage(driver);
 
@@ -40,8 +35,7 @@ test('Test Network', async () => {
     await network.stopTrace();
     await cdpClient.close();
 
+    await driver.quit()
+
 });
 
-afterEach(async () => {
-    await driver.quit()
-});

@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import { config } from "./config/config";
 import { TraceOperations } from './traceOperations'
 import * as CDP from 'chrome-remote-interface';
-import * as logger from 'winston';
+import { logger } from "./utils/logger";
 import { Protocol } from 'devtools-protocol';
 
 export class Tracing extends TraceOperations {

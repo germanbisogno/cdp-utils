@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import { harFromMessages } from 'chrome-har';
 import { TraceOperations } from './traceOperations'
 import CDP = require('chrome-remote-interface');
-import * as logger from 'winston';
+import { logger } from "./utils/logger";
 import { NetworkConditions } from './interfaces/networkConditions';
 
 // event types to observe
