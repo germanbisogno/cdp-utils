@@ -1,4 +1,4 @@
-import { Builder, WebDriver } from "selenium-webdriver";
+import { Builder } from "selenium-webdriver";
 import * as chrome from "selenium-webdriver/chrome";
 import 'chromedriver';
 import { GooglePage } from '../pages/googlePage';
