@@ -26,13 +26,14 @@
     "tslint": "^6.1.3",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^4.4.4",
-    "selenium-webdriver": "^4.0.0"
+    "selenium-webdriver": "^4.0.0",
+    "endpoint-utils": "^1.0.2"
   },
   "dependencies": {
     "chrome-har": "^0.12.0",
     "chrome-remote-interface": "^0.31.0",
-    "winston": "^3.3.3",
-    "devtools-protocol": "0.0.937139"
+    "devtools-protocol": "0.0.937139",
+    "winston": "^3.3.3"
   },
   "files": [
     "dist/**/*"
