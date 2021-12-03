@@ -1,12 +1,8 @@
+import Protocol from 'devtools-protocol';
 import * as fs from 'fs';
 
 export interface Config {
-    tracing: {
-        traceConfig: {
-            includedCategories: string[];
-            excludedCategories: string[];
-        }
-    }
+    tracing: Protocol.Tracing.StartRequest;
     cdpPort: number;
     maxTimeout: number;
 }

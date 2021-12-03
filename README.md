@@ -24,8 +24,7 @@ The following example shows how to use the Tracing class with Selenium Webdriver
 
 ```js
 
-import { CDPClient } from "../cdpClient";
-import { Tracing } from '../tracing';
+import { CDPClient, Tracing } from "cdp-utils";
 
 test('Test tracing', async () => {
     const driver = await new Builder().forBrowser('chrome')
@@ -61,8 +60,7 @@ An example using the Performance class with Selenium Webdriver.
 
 ```js
 
-import { CDPClient } from "../cdpClient";
-import { Performance } from '../performance';
+import { CDPClient, Performance } from "cdp-utils";
 
 test('Test performance', async () => {
     const driver = await new Builder().forBrowser('chrome')

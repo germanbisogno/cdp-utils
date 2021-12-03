@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import { config } from "./config/config";
 import { TraceOperations } from './traceOperations'
-import CDP = require('chrome-remote-interface');
+import * as CDP from 'chrome-remote-interface';
 import * as logger from 'winston';
 import { Protocol } from 'devtools-protocol';
 
@@ -17,7 +17,7 @@ export class Tracing extends TraceOperations {
     }
 
     /**
-     * Start tracing using Tracing domain, captures dataCollected event
+     * Start tracing using Tracing domain, captures events
      */
     public async startTrace() {
         try {
@@ -25,7 +25,7 @@ export class Tracing extends TraceOperations {
                 this._client['Tracing.dataCollected'](({ value }: Protocol.Tracing.DataCollectedEvent) => {
                     this._events.push(...value);
                 });
-                await this._client.Tracing.start(config.tracing);
+                await this._client.send('Tracing.start', config.tracing);
             }
         } catch (e) {
             logger.error(e);
@@ -44,7 +44,7 @@ export class Tracing extends TraceOperations {
                         fs.writeFileSync(this._traceFileName, JSON.stringify({ traceEvents: this._events }))
                     }
                 })
-                await this._client.Tracing.end();
+                await this._client.send('Tracing.end');
                 return this._events;
             }
         } catch (e) {

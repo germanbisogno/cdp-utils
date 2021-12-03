@@ -9,7 +9,9 @@ export class CDPClient {
      * @returns CDP Client
      */
     public static async init(): Promise<CDP.Client> {
-        this._client = await CDP({ port: config.cdpPort });
+        if (!this._client) {
+            this._client = await CDP({ port: config.cdpPort });
+        }
         return this._client;
     }
 
