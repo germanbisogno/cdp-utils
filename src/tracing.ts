@@ -39,12 +39,13 @@ export class Tracing extends TraceOperations {
     public async stopTrace(): Promise<Protocol.Tracing.DataCollectedEvent[] | undefined> {
         try {
             if (this._client) {
-                this._client['Tracing.tracingComplete'](() => {
-                    if (this._traceFileName) {
-                        fs.writeFileSync(this._traceFileName, JSON.stringify({ traceEvents: this._events }))
-                    }
-                })
                 await this._client.send('Tracing.end');
+                await this._client['Tracing.tracingComplete']();
+
+                if (this._traceFileName) {
+                    fs.writeFileSync(this._traceFileName, JSON.stringify({ traceEvents: this._events }))
+                }
+
                 return this._events;
             }
         } catch (e) {
