@@ -6,6 +6,7 @@ export class CDPClient {
 
     /**
      * Initializes the CDP client connection
+     * @port a given port number
      * @returns CDP Client
      */
     public async init(port: number | undefined): Promise<CDP.Client> {

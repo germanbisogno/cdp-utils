@@ -5,4 +5,4 @@ package-lock.json
 *.har
 *.tgz
 trace.json
-network.json
+trace.har
