@@ -92,3 +92,9 @@ test('Test performance', async () => {
 }
 
 ```
+
+## Diagram of classes
+
+<p align="center">
+  <img src="images/src_diagram.png" />
+</p>
