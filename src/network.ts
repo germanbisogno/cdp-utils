@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import { harFromMessages } from 'chrome-har';
 import { TraceOperations } from './traceOperations'
-import CDP = require('chrome-remote-interface');
+import * as CDP from 'chrome-remote-interface';
 import { logger } from "./utils/logger";
 import { NetworkConditions } from './interfaces/networkConditions';
 

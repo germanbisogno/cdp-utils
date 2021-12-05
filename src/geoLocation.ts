@@ -1,4 +1,4 @@
-import CDP = require("chrome-remote-interface");
+import * as CDP from 'chrome-remote-interface';
 
 import { Coordinates } from './interfaces/coordinates'
 import { logger } from "./utils/logger";

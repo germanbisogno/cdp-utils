@@ -1,4 +1,4 @@
-import CDP = require('chrome-remote-interface');
+import * as CDP from 'chrome-remote-interface';
 import { TraceOperations } from './traceOperations'
 import { logger } from "./utils/logger";
 import { Protocol } from 'devtools-protocol';
