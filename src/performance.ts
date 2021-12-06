@@ -6,9 +6,9 @@ import * as fs from 'fs';
 
 export class Performance extends TraceOperations {
     private _client: CDP.Client;
-    private _traceFileName: string | undefined;
+    private _traceFileName: string;
 
-    constructor(client: CDP.Client, traceFileName?: string) {
+    constructor(client: CDP.Client, traceFileName: string = '') {
         super();
         this._client = client;
         this._traceFileName = traceFileName;
@@ -17,7 +17,7 @@ export class Performance extends TraceOperations {
     /**
      * Start tracing using Performance domain
      */
-    public async startTrace() {
+    public async startTrace(): Promise<void> {
         try {
             if (this._client) {
                 await this._client.send("Performance.enable");
@@ -31,7 +31,7 @@ export class Performance extends TraceOperations {
      * Stop tracing, writes a trace file if provided
      * @returns response metrics
      */
-    public async stopTrace() {
+    public async stopTrace(): Promise<Protocol.Performance.GetMetricsResponse> {
         try {
             if (this._client) {
                 const metrics = await this.getMetrics();
@@ -43,16 +43,18 @@ export class Performance extends TraceOperations {
         } catch (e) {
             logger.error(e);
         }
+        return { metrics: []};
     }
 
     /**
      * Retrieves metrics using Performance domain
      * @returns response metrics
      */
-    private async getMetrics(): Promise<Protocol.Performance.GetMetricsResponse | undefined> {
+    private async getMetrics(): Promise<Protocol.Performance.GetMetricsResponse> {
         if (this._client) {
             const response = await this._client.send('Performance.getMetrics');
             return response;
         }
+        return { metrics: []};
     }
 }

@@ -13,7 +13,7 @@ export class GeoLocation {
      * Emulates a geo location by coordinates
      * @param coordinates given coordinates
      */
-    async emulateGeoLocation(coordinates: Coordinates) {
+    async emulateGeoLocation(coordinates: Coordinates): Promise<void> {
         try {
             if (this._client) {
                 await this._client.Emulation.setGeolocationOverride(coordinates);

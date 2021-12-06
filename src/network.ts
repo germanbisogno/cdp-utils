@@ -85,7 +85,7 @@ export class Network extends TraceOperations {
     /**
      * Start tracing using Network and Page domain
      */
-    public async startTrace() {
+    public async startTrace(): Promise<void> {
         try {
             if (this._client) {
                 await this._client.send('Page.enable');
@@ -123,7 +123,7 @@ export class Network extends TraceOperations {
      * Emulates network conditions
      * @param networkConditions given network conditions
      */
-    public async emulateNetworkConditions(networkConditions: NetworkConditions) {
+    public async emulateNetworkConditions(networkConditions: NetworkConditions): Promise<void> {
         try {
             if (this._client) {
                 await this._client.send('Network.emulateNetworkConditions', networkConditions);

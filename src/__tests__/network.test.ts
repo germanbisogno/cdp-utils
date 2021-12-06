@@ -24,7 +24,7 @@ test('Test Network', async () => {
 
     const cdpClient = new CDPClient();
     const client = await cdpClient.init(port);
-    const network = new Network(client, 'trace.har');
+    const network = new Network(client, 'network.har');
 
     await network.startTrace();
 
