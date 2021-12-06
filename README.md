@@ -93,7 +93,7 @@ test('Test performance', async () => {
 
 ```
 
-## Diagram of classes
+## Classes diagram
 
 <p align="center">
   <img src="images/src_diagram.png" />
