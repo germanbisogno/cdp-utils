@@ -24,7 +24,7 @@ test('Test Runtime', async () => {
 
     const cdpClient = new CDPClient();
     const client = await cdpClient.init(port);
-    const runtime = new Runtime(client, 'console.log');
+    const runtime = new Runtime(client, 'console.json');
 
     await runtime.startTrace();
 
@@ -38,7 +38,12 @@ test('Test Runtime', async () => {
 
     await googlePage.search('test');
 
-    await runtime.stopTrace();
+    const consoleResults = await runtime.stopTrace();
+
+    expect(consoleResults.find(x => x.type === 'error')).toBeDefined();
+    expect(consoleResults.find(x => x.type === 'warning')).toBeDefined();
+    expect(consoleResults.find(x => x.type === 'log')).toBeDefined();
+
     await cdpClient.close();
 
     await driver.quit()

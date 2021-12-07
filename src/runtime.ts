@@ -28,6 +28,7 @@ export class Runtime extends TraceOperations {
             }
         } catch (e) {
             logger.error(e);
+            throw e;
         }
     }
     /**
@@ -44,6 +45,9 @@ export class Runtime extends TraceOperations {
             }
         } catch (e) {
             logger.error(e);
+            throw e;
+        } finally {
+            await this._client.send('Runtime.disable');
         }
         return [];
     }

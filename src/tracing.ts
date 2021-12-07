@@ -29,6 +29,7 @@ export class Tracing extends TraceOperations {
             }
         } catch (e) {
             logger.error(e);
+            throw e;
         }
     }
 
@@ -50,6 +51,7 @@ export class Tracing extends TraceOperations {
             }
         } catch (e) {
             logger.error(e);
+            throw e;
         }
         return [];
     }

@@ -20,6 +20,7 @@ export class GeoLocation {
             }
         } catch (e) {
             logger.error(e);
+            throw e;
         }
     };
 }

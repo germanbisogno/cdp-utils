@@ -6,25 +6,35 @@ import * as fs from 'fs';
 
 export class Performance extends TraceOperations {
     private _client: CDP.Client;
-    private _traceFileName: string;
+    private _startTraceFileName: string;
+    private _endTraceFileName: string;
 
-    constructor(client: CDP.Client, traceFileName: string = '') {
+    constructor(client: CDP.Client, startTraceFileName: string = '',
+        endTraceFileName: string = '') {
         super();
         this._client = client;
-        this._traceFileName = traceFileName;
+        this._startTraceFileName = startTraceFileName;
+        this._endTraceFileName = endTraceFileName;
     }
 
     /**
      * Start tracing using Performance domain
      */
-    public async startTrace(): Promise<void> {
+    public async startTrace(): Promise<Protocol.Performance.GetMetricsResponse> {
         try {
             if (this._client) {
                 await this._client.send("Performance.enable");
+                const metrics = await this.getMetrics();
+                if (this._startTraceFileName) {
+                    fs.writeFileSync(this._startTraceFileName, JSON.stringify(metrics))
+                }
+                return metrics;
             }
         } catch (e) {
             logger.error(e);
+            throw e;
         }
+        return { metrics: [] };
     }
 
     /**
@@ -35,15 +45,18 @@ export class Performance extends TraceOperations {
         try {
             if (this._client) {
                 const metrics = await this.getMetrics();
-                if (this._traceFileName) {
-                    fs.writeFileSync(this._traceFileName, JSON.stringify(metrics))
+                if (this._endTraceFileName) {
+                    fs.writeFileSync(this._endTraceFileName, JSON.stringify(metrics))
                 }
                 return metrics;
             }
         } catch (e) {
             logger.error(e);
+            throw e;
+        } finally {
+            await this._client.send("Performance.disable");
         }
-        return { metrics: []};
+        return { metrics: [] };
     }
 
     /**
@@ -55,6 +68,6 @@ export class Performance extends TraceOperations {
             const response = await this._client.send('Performance.getMetrics');
             return response;
         }
-        return { metrics: []};
+        return { metrics: [] };
     }
 }

@@ -7,4 +7,6 @@ package-lock.json
 tracing.json
 network.har
 performance.json
-console.log
+console.json
+startTrace.json
+endTrace.json

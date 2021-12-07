@@ -4,6 +4,7 @@ import { TraceOperations } from './traceOperations'
 import * as CDP from 'chrome-remote-interface';
 import { logger } from "./utils/logger";
 import { NetworkConditions } from './interfaces/networkConditions';
+import { Har } from 'har-format';
 
 // event types to observe
 const observe = [
@@ -98,6 +99,7 @@ export class Network extends TraceOperations {
             }
         } catch (e) {
             logger.error(e);
+            throw e;
         }
     }
 
@@ -105,7 +107,7 @@ export class Network extends TraceOperations {
      * Stop tracing, writes a trace file if provided
      * @returns a promise of har events
      */
-    public async stopTrace(): Promise<any> {
+    public async stopTrace(): Promise<Har | undefined> {
         try {
             if (this._client) {
                 const har = await harFromMessages(this._events, { includeTextFromResponseBody: true });
@@ -116,6 +118,10 @@ export class Network extends TraceOperations {
             }
         } catch (e) {
             logger.error(e);
+            throw e;
+        } finally {
+            await this._client.send('Page.disable');
+            await this._client.send('Network.disable');
         }
     }
 
@@ -130,6 +136,7 @@ export class Network extends TraceOperations {
             }
         } catch (e) {
             logger.error(e);
+            throw e;
         }
     }
 }

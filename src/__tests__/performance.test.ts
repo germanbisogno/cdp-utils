@@ -24,15 +24,19 @@ test('Test Performance', async () => {
 
     const cdpClient = new CDPClient();
     const client = await cdpClient.init(port);
-    const performance = new Performance(client, 'performance.json');
+    const performance = new Performance(client, 'startTrace.json', 'endTrace.json');
 
-    await performance.startTrace();
+    const perfStartResults = await performance.startTrace();
 
     await driver.get("https://www.google.com");
 
     await googlePage.search('test');
 
-    await performance.stopTrace();
+    const perfEndResults = await performance.stopTrace();
+
+    expect(perfStartResults.metrics.length).toBeGreaterThan(0);
+    expect(perfEndResults.metrics.length).toBeGreaterThan(0);
+
     await cdpClient.close();
 
     await driver.quit()

@@ -32,7 +32,10 @@ test('Test Tracing', async () => {
 
     await googlePage.search('test');
 
-    await tracing.stopTrace();
+    const tracingResults = await tracing.stopTrace();
+
+    expect(tracingResults.length).toBeGreaterThan(0);
+
     await cdpClient.close();
 
     await driver.quit();

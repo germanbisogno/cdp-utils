@@ -10,9 +10,14 @@ export class CDPClient {
      * @returns CDP Client
      */
     public async init(port: number | undefined): Promise<CDP.Client> {
-        this._client = await CDP({ port });
-        logger.info('CDP Session created using port: ' + port);
-        return this._client;
+        try {
+            this._client = await CDP({ port });
+            logger.info('CDP Session created using port: ' + port);
+            return this._client;
+        } catch (e) {
+            logger.error('CDP Session not created! due to: ' + e);
+            throw e;
+        }
     }
 
     /**
