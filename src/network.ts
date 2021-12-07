@@ -107,7 +107,7 @@ export class Network extends TraceOperations {
      * Stop tracing, writes a trace file if provided
      * @returns a promise of har events
      */
-    public async stopTrace(): Promise<Har | undefined> {
+    public async stopTrace(): Promise<Har> {
         try {
             if (this._client) {
                 const har = await harFromMessages(this._events, { includeTextFromResponseBody: true });
@@ -123,6 +123,7 @@ export class Network extends TraceOperations {
             await this._client.send('Page.disable');
             await this._client.send('Network.disable');
         }
+        return { log: { entries: [], version: '', creator: { name: '', version: '' } } }
     }
 
     /**
