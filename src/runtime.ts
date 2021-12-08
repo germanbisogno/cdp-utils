@@ -1,4 +1,4 @@
-import CDP = require("chrome-remote-interface");
+import * as CDP from 'chrome-remote-interface';
 import { logger } from "./utils/logger";
 import * as fs from 'fs';
 import { TraceOperations } from "./traceOperations";
@@ -7,9 +7,9 @@ import { Protocol } from 'devtools-protocol';
 export class Runtime extends TraceOperations {
     private _client: CDP.Client;
     private _consoleLogEntries: Protocol.Runtime.ConsoleAPICalledEvent[] = [];
-    private _traceFileName: string | undefined;
+    private _traceFileName: string;
 
-    constructor(client: CDP.Client, traceFileName?: string) {
+    constructor(client: CDP.Client, traceFileName: string = '') {
         super();
         this._client = client;
         this._traceFileName = traceFileName;
@@ -28,13 +28,14 @@ export class Runtime extends TraceOperations {
             }
         } catch (e) {
             logger.error(e);
+            throw e;
         }
     }
     /**
      * Stop tracing, writes a trace file if provided
      * @returns console entries
      */
-    public async stopTrace(): Promise<any> {
+    public async stopTrace(): Promise<Protocol.Runtime.ConsoleAPICalledEvent[]> {
         try {
             if (this._client) {
                 if (this._traceFileName) {
@@ -44,6 +45,10 @@ export class Runtime extends TraceOperations {
             }
         } catch (e) {
             logger.error(e);
+            throw e;
+        } finally {
+            await this._client.send('Runtime.disable');
         }
+        return [];
     }
 }

@@ -4,5 +4,9 @@
 package-lock.json
 *.har
 *.tgz
-trace.json
-trace.har
+tracing.json
+network.har
+performance.json
+console.json
+startTrace.json
+endTrace.json

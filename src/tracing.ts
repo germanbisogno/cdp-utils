@@ -8,9 +8,9 @@ import { Protocol } from 'devtools-protocol';
 export class Tracing extends TraceOperations {
     private _client: CDP.Client;
     private _events: Protocol.Tracing.DataCollectedEvent[] = [];
-    private _traceFileName: string | undefined;
+    private _traceFileName: string;
 
-    constructor(client: CDP.Client, traceFileName?: string) {
+    constructor(client: CDP.Client, traceFileName: string = '') {
         super();
         this._client = client;
         this._traceFileName = traceFileName;
@@ -29,6 +29,7 @@ export class Tracing extends TraceOperations {
             }
         } catch (e) {
             logger.error(e);
+            throw e;
         }
     }
 
@@ -36,7 +37,7 @@ export class Tracing extends TraceOperations {
      * Stop tracing, writes a trace file if provided
      * @returns collected events
      */
-    public async stopTrace(): Promise<Protocol.Tracing.DataCollectedEvent[] | undefined> {
+    public async stopTrace(): Promise<Protocol.Tracing.DataCollectedEvent[]> {
         try {
             if (this._client) {
                 await this._client.send('Tracing.end');
@@ -50,6 +51,8 @@ export class Tracing extends TraceOperations {
             }
         } catch (e) {
             logger.error(e);
+            throw e;
         }
+        return [];
     }
 }

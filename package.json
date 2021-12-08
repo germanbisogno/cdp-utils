@@ -30,6 +30,7 @@
     "endpoint-utils": "^1.0.2"
   },
   "dependencies": {
+    "@types/har-format": "^1.2.8",
     "chrome-har": "^0.12.0",
     "chrome-remote-interface": "^0.31.0",
     "devtools-protocol": "0.0.937139",

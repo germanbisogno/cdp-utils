@@ -6,6 +6,7 @@ import { Network } from '../network';
 import { CDPClient } from '../cdpClient';
 import { config } from "../config/config";
 import { getFreePort } from 'endpoint-utils';
+import { Har } from "har-format";
 
 jest.setTimeout(config.maxTimeout);
 
@@ -24,7 +25,7 @@ test('Test Network', async () => {
 
     const cdpClient = new CDPClient();
     const client = await cdpClient.init(port);
-    const network = new Network(client, 'trace.har');
+    const network = new Network(client, 'network.har');
 
     await network.startTrace();
 
@@ -32,7 +33,8 @@ test('Test Network', async () => {
 
     await googlePage.search('test');
 
-    await network.stopTrace();
+    const networkResults: Har = await network.stopTrace();
+    expect(networkResults.log.entries.length).toBeGreaterThan(0);
     await cdpClient.close();
 
     await driver.quit()

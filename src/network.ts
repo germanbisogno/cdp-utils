@@ -1,9 +1,10 @@
 import * as fs from 'fs';
 import { harFromMessages } from 'chrome-har';
 import { TraceOperations } from './traceOperations'
-import CDP = require('chrome-remote-interface');
+import * as CDP from 'chrome-remote-interface';
 import { logger } from "./utils/logger";
 import { NetworkConditions } from './interfaces/networkConditions';
+import { Har } from 'har-format';
 
 // event types to observe
 const observe = [
@@ -74,9 +75,9 @@ export const NETWORK_PRESETS = {
 export class Network extends TraceOperations {
     private _client: CDP.Client;
     private _events: any[] = [];
-    private _traceFileName: string | undefined;
+    private _traceFileName: string;
 
-    constructor(client: CDP.Client, traceFileName?: string) {
+    constructor(client: CDP.Client, traceFileName: string = '') {
         super();
         this._client = client;
         this._traceFileName = traceFileName;
@@ -85,7 +86,7 @@ export class Network extends TraceOperations {
     /**
      * Start tracing using Network and Page domain
      */
-    public async startTrace() {
+    public async startTrace(): Promise<void> {
         try {
             if (this._client) {
                 await this._client.send('Page.enable');
@@ -98,6 +99,7 @@ export class Network extends TraceOperations {
             }
         } catch (e) {
             logger.error(e);
+            throw e;
         }
     }
 
@@ -105,7 +107,7 @@ export class Network extends TraceOperations {
      * Stop tracing, writes a trace file if provided
      * @returns a promise of har events
      */
-    public async stopTrace(): Promise<any> {
+    public async stopTrace(): Promise<Har> {
         try {
             if (this._client) {
                 const har = await harFromMessages(this._events, { includeTextFromResponseBody: true });
@@ -116,20 +118,26 @@ export class Network extends TraceOperations {
             }
         } catch (e) {
             logger.error(e);
+            throw e;
+        } finally {
+            await this._client.send('Page.disable');
+            await this._client.send('Network.disable');
         }
+        return { log: { entries: [], version: '', creator: { name: '', version: '' } } }
     }
 
     /**
      * Emulates network conditions
      * @param networkConditions given network conditions
      */
-    public async emulateNetworkConditions(networkConditions: NetworkConditions) {
+    public async emulateNetworkConditions(networkConditions: NetworkConditions): Promise<void> {
         try {
             if (this._client) {
                 await this._client.send('Network.emulateNetworkConditions', networkConditions);
             }
         } catch (e) {
             logger.error(e);
+            throw e;
         }
     }
 }

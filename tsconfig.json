@@ -13,6 +13,7 @@
     "exclude": [
         "node_modules",
         "**/__tests__/*",
-        "**/pages"
+        "**/pages",
+        "**/images"
     ]
 }
