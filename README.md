@@ -72,18 +72,19 @@ test('Test performance', async () => {
     const cdpClient = new CDPClient();
     const client = await cdpClient.init(port);
     
-    // Instantiates the class and produces a file as result of the trace
-    const performance = new Performance(client, 'performance.json');
+    // Instantiates the class and produces two files as result of the trace
+    const performance = new Performance(client, 'startTrace.json', 'endTrace.json');
 
     // start tracing
-    await performance.startTrace();
+    const perfStartResults = await performance.startTrace();
 
-    // here you perform your test steps
+    await driver.get("https://www.google.com");
 
-    // stop tracing
-    const perf = await performance.stopTrace();
-    
-    // do whatever with perf
+    await googlePage.search('test');
+
+    const perfEndResults = await performance.stopTrace();
+
+    // Perform assertions or do whatever with perfStartResults or perfEndResults
 
     // Close the CDP client connection
     await cdpClient.close()
