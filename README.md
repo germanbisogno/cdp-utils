@@ -105,6 +105,22 @@ npm run build
 npm run test
 
 ```
+
+## Build
+
+```sh
+
+npm run build
+
+```
+## Run tests
+
+```sh
+
+npm run test
+
+```
+
 ## Classes diagram
 
 <p align="center">
