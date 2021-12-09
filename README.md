@@ -100,10 +100,6 @@ test('Test performance', async () => {
 
 npm install
 
-npm run build
-
-npm run test
-
 ```
 
 ## Build
