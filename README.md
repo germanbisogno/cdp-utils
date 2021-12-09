@@ -94,6 +94,15 @@ test('Test performance', async () => {
 
 ```
 
+## Build & run tests
+
+```js
+
+npm run build
+
+npm run test
+
+```
 ## Classes diagram
 
 <p align="center">
