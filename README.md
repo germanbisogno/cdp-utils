@@ -94,9 +94,11 @@ test('Test performance', async () => {
 
 ```
 
-## Build & run tests
+## Install
 
-```js
+```sh
+
+npm install
 
 npm run build
 
