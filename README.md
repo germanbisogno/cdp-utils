@@ -10,7 +10,7 @@
 
 It has been inspired in the power of CDP to interact with the browser like you would do using chrome dev tools but programmatically, **this library is independent of any test automation framework** since it talks directly with chrome using `--remote-debugging-port` commonly 9222 port.  There are situations when we need to emulate or collect information from the browser during the execution of e2e tests.  This lib intends to be an utility for testing purposes without the need to program each functionality.
 
-More inpiration has been based on existing tools that are using this protocol like [puppeteer](https://github.com/puppeteer/puppeteer), see https://github.com/aslushnikov/getting-started-with-cdp/blob/master/README.md
+More inpiration has been based on existing tools that are using this protocol like [puppeteer](https://github.com/puppeteer/puppeteer), see https://puppeteer.github.io/puppeteer/docs/puppeteer.tracing
 
 ## Important
 
