@@ -27,9 +27,15 @@ The following example shows how to use the Tracing class with Selenium Webdriver
 import { CDPClient, Tracing } from "cdp-utils";
 
 test('Test tracing', async () => {
+    const options = new chrome.Options();
+
+    options.addArguments(`--remote-debugging-port=${port}`);
+
     const driver = await new Builder().forBrowser('chrome')
         .setChromeOptions(options)
         .build();
+
+    const googlePage = new GooglePage(driver);
 
     // Initializes the CDP client connection
     const cdpClient = new CDPClient();
@@ -64,10 +70,16 @@ An example using the Performance class with Selenium Webdriver.
 import { CDPClient, Performance } from "cdp-utils";
 
 test('Test performance', async () => {
+    const options = new chrome.Options();
+
+    options.addArguments(`--remote-debugging-port=${port}`);
+
     const driver = await new Builder().forBrowser('chrome')
         .setChromeOptions(options)
         .build();
 
+    const googlePage = new GooglePage(driver);
+    
     // Initializes the CDP client connection
     const cdpClient = new CDPClient();
     const client = await cdpClient.init(port);
