@@ -1,7 +1,7 @@
 {
   "name": "cdp-utils",
   "version": "1.0.0",
-  "description": "",
+  "description": "A set of utilities/wrapper for Test Automation or Performance testing on top of Chrome DevTools Protocol",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
