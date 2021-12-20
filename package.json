@@ -1,7 +1,11 @@
 {
   "name": "@gbisogno/cdp-utils",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A set of utilities/wrapper for Test Automation or Performance testing on top of Chrome DevTools Protocol",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/germanbisogno/cdp-utils.git"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
