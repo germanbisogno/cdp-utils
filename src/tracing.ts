@@ -4,13 +4,17 @@ import { TraceOperations } from './traceOperations'
 import * as CDP from 'chrome-remote-interface';
 import { logger } from "./utils/logger";
 import { Protocol } from 'devtools-protocol';
+import Tracelib from 'tracelib';
+import { TraceSummary } from './interfaces/traceSummary';
+import { MemoryCounters } from './interfaces/memoryCounters';
+import { Time } from './interfaces/time';
 
 export class Tracing extends TraceOperations {
-    private _client: CDP.Client;
+    private _client: CDP.Client | undefined;
     private _events: Protocol.Tracing.DataCollectedEvent[] = [];
     private _traceFileName: string;
 
-    constructor(client: CDP.Client, traceFileName: string = '') {
+    constructor(client: CDP.Client | undefined, traceFileName: string = '') {
         super();
         this._client = client;
         this._traceFileName = traceFileName;
@@ -44,7 +48,7 @@ export class Tracing extends TraceOperations {
                 await this._client['Tracing.tracingComplete']();
 
                 if (this._traceFileName) {
-                    fs.writeFileSync(this._traceFileName, JSON.stringify({ traceEvents: this._events }))
+                    fs.writeFileSync(this._traceFileName, JSON.stringify(this._events))
                 }
 
                 return this._events;
@@ -54,5 +58,32 @@ export class Tracing extends TraceOperations {
             throw e;
         }
         return [];
+    }
+
+    /**
+     * Fetch total time-durations of scripting, rendering, painting from tracelogs.
+     */
+    public getSummary(): TraceSummary {
+        const tasks = new Tracelib(this._events);
+        const summary = tasks.getSummary();
+        return summary;
+    }
+    /**
+     * Fetch frames per second.
+     */
+    public getFPS(): Time {
+        const tasks = new Tracelib(this._events);
+        const fps = tasks.getFPS();
+        return fps;
+    }
+
+    /**
+     * Fetch data for JS Heap, Documents, Nodes, Listeners and GPU Memory from tracelogs.
+     * @returns 
+     */
+    public getMemoryCounters(): MemoryCounters {
+        const tasks = new Tracelib(this._events)
+        const memoryInfo = tasks.getMemoryCounters();
+        return memoryInfo;
     }
 }

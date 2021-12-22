@@ -38,6 +38,7 @@
     "chrome-har": "^0.12.0",
     "chrome-remote-interface": "^0.31.0",
     "devtools-protocol": "0.0.937139",
+    "tracelib": "^1.0.1",
     "winston": "^3.3.3"
   },
   "files": [
