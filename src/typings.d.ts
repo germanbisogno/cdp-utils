@@ -5,3 +5,4 @@ declare module "*.json" {
 
 declare module 'chrome-har';
 declare module 'endpoint-utils';
+declare module 'tracelib';
