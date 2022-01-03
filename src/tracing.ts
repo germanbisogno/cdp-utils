@@ -5,9 +5,9 @@ import * as CDP from 'chrome-remote-interface';
 import { logger } from "./utils/logger";
 import { Protocol } from 'devtools-protocol';
 import Tracelib from 'tracelib';
-import { TraceSummary } from './interfaces/traceSummary';
 import { MemoryCounters } from './interfaces/memoryCounters';
 import { Time } from './interfaces/time';
+import { Metric } from './interfaces/metrics';
 
 export class Tracing extends TraceOperations {
     private _client: CDP.Client | undefined;
@@ -48,7 +48,7 @@ export class Tracing extends TraceOperations {
                 await this._client['Tracing.tracingComplete']();
 
                 if (this._traceFileName) {
-                    fs.writeFileSync(this._traceFileName, JSON.stringify(this._events))
+                    fs.writeFileSync(this._traceFileName, JSON.stringify(this._events, null, 2))
                 }
 
                 return this._events;
@@ -63,7 +63,7 @@ export class Tracing extends TraceOperations {
     /**
      * Fetch total time-durations of scripting, rendering, painting from tracelogs.
      */
-    public getSummary(): TraceSummary {
+    public getSummary(): Metric {
         const tasks = new Tracelib(this._events);
         const summary = tasks.getSummary();
         return summary;
@@ -71,7 +71,7 @@ export class Tracing extends TraceOperations {
     /**
      * Fetch frames per second.
      */
-    public getFPS(): Time {
+    public getFPS(): Metric {
         const tasks = new Tracelib(this._events);
         const fps = tasks.getFPS();
         return fps;
@@ -81,7 +81,7 @@ export class Tracing extends TraceOperations {
      * Fetch data for JS Heap, Documents, Nodes, Listeners and GPU Memory from tracelogs.
      * @returns 
      */
-    public getMemoryCounters(): MemoryCounters {
+    public getMemoryCounters(): Metric {
         const tasks = new Tracelib(this._events)
         const memoryInfo = tasks.getMemoryCounters();
         return memoryInfo;

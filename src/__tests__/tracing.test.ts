@@ -6,6 +6,7 @@ import { GooglePage } from '../pages/googlePage';
 import { Tracing } from '../tracing';
 import { config } from "../config/config";
 import { getFreePort } from 'endpoint-utils';
+import { StorageManager } from '../storageManager';
 
 jest.setTimeout(config.maxTimeout);
 
@@ -20,19 +21,17 @@ test('Test Tracing', async () => {
         .setChromeOptions(options)
         .build();
 
-    const googlePage = new GooglePage(driver);
 
+    const googlePage = new GooglePage(driver);
+    const storage = new StorageManager();
     const cdpClient = new CDPClient();
     const client = await cdpClient.init(port);
 
-    // Shows FPS Counter
-    await client.send('Overlay.setShowFPSCounter', { show: true });
-
     const tracing = new Tracing(client, 'tracing.json');
 
-    await tracing.startTrace();
-
     await driver.get("https://www.google.com");
+
+    await tracing.startTrace();
 
     await googlePage.search('test');
 
@@ -42,6 +41,12 @@ test('Test Tracing', async () => {
 
     await cdpClient.close();
 
+    // Save metrics
+
+    storage.save(tracing.getFPS());
+    storage.close();
+
     await driver.quit();
 });
+
 
