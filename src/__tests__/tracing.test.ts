@@ -21,7 +21,6 @@ test('Test Tracing', async () => {
         .setChromeOptions(options)
         .build();
 
-
     const googlePage = new GooglePage(driver);
     const storage = new StorageManager();
     const cdpClient = new CDPClient();
@@ -42,7 +41,6 @@ test('Test Tracing', async () => {
     await cdpClient.close();
 
     // Save metrics
-
     storage.save(tracing.getFPS());
     storage.close();
 

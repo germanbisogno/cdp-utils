@@ -5,8 +5,6 @@ import * as CDP from 'chrome-remote-interface';
 import { logger } from "./utils/logger";
 import { Protocol } from 'devtools-protocol';
 import Tracelib from 'tracelib';
-import { MemoryCounters } from './interfaces/memoryCounters';
-import { Time } from './interfaces/time';
 import { Metric } from './interfaces/metrics';
 
 export class Tracing extends TraceOperations {

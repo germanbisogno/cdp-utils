@@ -10,7 +10,7 @@ import { Har } from "har-format";
 
 jest.setTimeout(config.maxTimeout);
 
-test.skip('Test Network', async () => {
+test('Test Network', async () => {
 
     const port = await getFreePort();
     const options = new chrome.Options();
