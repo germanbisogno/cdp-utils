@@ -1,8 +1,11 @@
 import { Metric } from '../interfaces/metrics';
 import { ClientOptions, InfluxDB, Point, WriteApi } from '@influxdata/influxdb-client'
 import * as os from 'os';
+import { logger } from '../utils/logger';
 
-/** Environment variables **/
+/** 
+ * Environment variables 
+ */
 const host = process.env.INFLUX_HOST ? process.env.INFLUX_HOST : 'localhost';
 const org = process.env.INFLUX_ORG ? process.env.INFLUX_ORG : 'test';
 const bucket = process.env.INFLUX_BUCKET ? process.env.INFLUX_BUCKET : 'test';
@@ -19,7 +22,7 @@ export class InfluxStorage {
     constructor() {
         const clientOptions: ClientOptions = {
             url: `http://${host}:${port}`,
-            token: token,
+            token,
         }
 
         this._influxDB = new InfluxDB(clientOptions)
@@ -33,15 +36,15 @@ export class InfluxStorage {
     public async save(data: Metric): Promise<void> {
 
         for (let i = 0; i < data.times.length; i++) {
-            let point = new Point('fps')
+            const point = new Point('fps')
                 .tag('host', os.hostname())
                 .tag('fps_time', data.times[i])
                 .floatField('value', data.values[i])
             this._writeApi.writePoint(point);
         }
 
-        await this._writeApi.flush().catch(e => console.error('flushed failed', e))
-        await this._writeApi.close().catch(console.error)
+        await this._writeApi.flush().catch(e => logger.error('flushed failed', e))
+        await this._writeApi.close().catch(logger.error)
 
     }
 
