@@ -6,7 +6,6 @@ import { GooglePage } from '../pages/googlePage';
 import { Tracing } from '../tracing';
 import { config } from "../config/config";
 import { getFreePort } from 'endpoint-utils';
-import { StorageManager } from '../storageManager';
 
 jest.setTimeout(config.maxTimeout);
 
@@ -22,7 +21,7 @@ test('Test Tracing', async () => {
         .build();
 
     const googlePage = new GooglePage(driver);
-    const storage = new StorageManager();
+
     const cdpClient = new CDPClient();
     const client = await cdpClient.init(port);
 
@@ -39,10 +38,6 @@ test('Test Tracing', async () => {
     expect(tracingResults.length).toBeGreaterThan(0);
 
     await cdpClient.close();
-
-    // Save metrics
-    storage.save(tracing.getFPS());
-    storage.close();
 
     await driver.quit();
 });

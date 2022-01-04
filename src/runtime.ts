@@ -51,4 +51,11 @@ export class Runtime extends TraceOperations {
         }
         return [];
     }
+
+    /**
+     * Save metrics in the default storage
+     */
+    async saveMetrics(): Promise<void> {
+        // not implemented yet
+    }
 }

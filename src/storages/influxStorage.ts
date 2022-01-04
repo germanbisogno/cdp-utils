@@ -1,5 +1,5 @@
 import { Metric } from '../interfaces/metrics';
-import { ClientOptions, DEFAULT_WriteOptions, InfluxDB, Point, WriteApi } from '@influxdata/influxdb-client'
+import { ClientOptions, InfluxDB, Point, WriteApi } from '@influxdata/influxdb-client'
 import * as os from 'os';
 
 /** Environment variables **/
@@ -36,7 +36,7 @@ export class InfluxStorage {
             let point = new Point('fps')
                 .tag('host', os.hostname())
                 .tag('fps_time', data.times[i])
-                .floatField('value', data.values[i]);
+                .floatField('value', data.values[i])
             this._writeApi.writePoint(point);
         }
 

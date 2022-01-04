@@ -9,7 +9,6 @@ import { Metric } from './interfaces/metrics';
 
 export class Tracing extends TraceOperations {
     private _client: CDP.Client | undefined;
-    private _events: Protocol.Tracing.DataCollectedEvent[] = [];
     private _traceFileName: string;
 
     constructor(client: CDP.Client | undefined, traceFileName: string = '') {
@@ -83,5 +82,12 @@ export class Tracing extends TraceOperations {
         const tasks = new Tracelib(this._events)
         const memoryInfo = tasks.getMemoryCounters();
         return memoryInfo;
+    }
+
+    /**
+     * Save metrics in the default storage
+     */
+    async saveMetrics(): Promise<void> {
+        this._storage.save(this.getFPS());
     }
 }

@@ -74,7 +74,6 @@ export const NETWORK_PRESETS = {
 
 export class Network extends TraceOperations {
     private _client: CDP.Client;
-    private _events: any[] = [];
     private _traceFileName: string;
 
     constructor(client: CDP.Client, traceFileName: string = '') {
@@ -140,4 +139,12 @@ export class Network extends TraceOperations {
             throw e;
         }
     }
+
+    /**
+     * Save metrics in the default storage
+     */
+    async saveMetrics(): Promise<void> {
+        // not implemented yet
+    }
+
 }
