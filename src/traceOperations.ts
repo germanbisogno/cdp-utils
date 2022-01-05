@@ -11,16 +11,10 @@ export abstract class TraceOperations {
         this._storage = new StorageManager();
     }
 
-    async stopTrace(): Promise<Protocol.Tracing.DataCollectedEvent[]
+    abstract stopTrace(): Promise<Protocol.Tracing.DataCollectedEvent[]
         | Protocol.Runtime.ConsoleAPICalledEvent[]
         | Protocol.Performance.GetMetricsResponse
-        | Har> {
-
-        if (config.saveMetrics) {
-            await this.saveMetrics();
-        }
-        return this._events;
-    }
+        | Har>;
 
     abstract startTrace(): Promise<void> | Promise<Protocol.Performance.GetMetricsResponse>;
     abstract saveMetrics(): Promise<void>;

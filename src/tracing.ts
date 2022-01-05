@@ -48,6 +48,8 @@ export class Tracing extends TraceOperations {
                     fs.writeFileSync(this._traceFileName, JSON.stringify(this._events, null, 2))
                 }
 
+                await this.saveMetrics();
+
                 return this._events;
             }
         } catch (e) {
