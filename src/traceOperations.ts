@@ -1,6 +1,5 @@
 import Protocol from "devtools-protocol";
 import { Har } from "har-format";
-import { config } from "./config/config";
 import { StorageManager } from './storageManager';
 
 export abstract class TraceOperations {
