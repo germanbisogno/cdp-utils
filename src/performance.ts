@@ -70,11 +70,4 @@ export class Performance extends TraceOperations {
         }
         return { metrics: [] };
     }
-
-    /**
-     * Save metrics in the default storage
-     */
-    async saveMetrics(): Promise<void> {
-        // not implemented yet
-    }
 }
