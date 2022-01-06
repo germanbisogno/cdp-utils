@@ -75,6 +75,7 @@ export const NETWORK_PRESETS = {
 export class Network extends TraceOperations {
     private _client: CDP.Client;
     private _traceFileName: string;
+    protected _events: any[] = [];
 
     constructor(client: CDP.Client, traceFileName: string = '') {
         super();
