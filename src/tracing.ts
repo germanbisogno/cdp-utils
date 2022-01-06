@@ -10,6 +10,7 @@ import { Metric } from './interfaces/metrics';
 export class Tracing extends TraceOperations {
     private _client: CDP.Client | undefined;
     private _traceFileName: string;
+    protected _events: Protocol.Tracing.DataCollectedEvent[] = [];
 
     constructor(client: CDP.Client | undefined, traceFileName: string = '') {
         super();
@@ -48,8 +49,6 @@ export class Tracing extends TraceOperations {
                     fs.writeFileSync(this._traceFileName, JSON.stringify(this._events, null, 2))
                 }
 
-                await this.saveMetrics();
-
                 return this._events;
             }
         } catch (e) {
@@ -84,12 +83,5 @@ export class Tracing extends TraceOperations {
         const tasks = new Tracelib(this._events)
         const memoryInfo = tasks.getMemoryCounters();
         return memoryInfo;
-    }
-
-    /**
-     * Save metrics in the default storage
-     */
-    async saveMetrics(): Promise<void> {
-        this._storage.save(this.getFPS());
     }
 }

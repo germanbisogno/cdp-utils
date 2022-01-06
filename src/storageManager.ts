@@ -1,11 +1,10 @@
 import { Metric } from "./interfaces/metrics";
 import { StorageOperations } from "./interfaces/storageOperations";
-import { InfluxStorage } from "./storages/influxStorage";
 
 export class StorageManager implements StorageOperations {
     private _storage: StorageOperations;
 
-    constructor(storage: StorageOperations = new InfluxStorage()) {
+    constructor(storage: StorageOperations) {
         this._storage = storage;
     }
 

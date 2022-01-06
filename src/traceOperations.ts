@@ -1,20 +1,11 @@
 import Protocol from "devtools-protocol";
 import { Har } from "har-format";
-import { StorageManager } from './storageManager';
 
 export abstract class TraceOperations {
-    protected _events: any[] = [];
-    protected _storage: StorageManager;
-
-    constructor() {
-        this._storage = new StorageManager();
-    }
-
-    abstract stopTrace(): Promise<Protocol.Tracing.DataCollectedEvent[]
-        | Protocol.Runtime.ConsoleAPICalledEvent[]
-        | Protocol.Performance.GetMetricsResponse
-        | Har>;
+    abstract stopTrace(): Promise<Protocol.Runtime.ConsoleAPICalledEvent[]>
+        | Promise<Protocol.Performance.GetMetricsResponse>
+        | Promise<Protocol.Tracing.DataCollectedEvent[]>
+        | Promise<Har>;
 
     abstract startTrace(): Promise<void> | Promise<Protocol.Performance.GetMetricsResponse>;
-    abstract saveMetrics(): Promise<void>;
 }

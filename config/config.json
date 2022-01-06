@@ -21,6 +21,5 @@
         }
     },
     "cdpPort": 9222,
-    "maxTimeout": 30000,
-    "saveMetrics": false
+    "maxTimeout": 30000
 }
