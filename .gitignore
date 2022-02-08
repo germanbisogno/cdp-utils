@@ -4,6 +4,7 @@
 package-lock.json
 *.har
 *.tgz
+*.html
 tracing.json
 network.har
 performance.json

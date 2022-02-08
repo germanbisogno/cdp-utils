@@ -4,8 +4,6 @@ import { TraceOperations } from './traceOperations'
 import * as CDP from 'chrome-remote-interface';
 import { logger } from "./utils/logger";
 import { Protocol } from 'devtools-protocol';
-import Tracelib from 'tracelib';
-import { Metric } from './interfaces/metrics';
 
 export class Tracing extends TraceOperations {
     private _client: CDP.Client | undefined;
@@ -56,32 +54,5 @@ export class Tracing extends TraceOperations {
             throw e;
         }
         return [];
-    }
-
-    /**
-     * Fetch total time-durations of scripting, rendering, painting from tracelogs.
-     */
-    public getSummary(): Metric {
-        const tasks = new Tracelib(this._events);
-        const summary = tasks.getSummary();
-        return summary;
-    }
-    /**
-     * Fetch frames per second.
-     */
-    public getFPS(): Metric {
-        const tasks = new Tracelib(this._events);
-        const fps = tasks.getFPS();
-        return fps;
-    }
-
-    /**
-     * Fetch data for JS Heap, Documents, Nodes, Listeners and GPU Memory from tracelogs.
-     * @returns 
-     */
-    public getMemoryCounters(): Metric {
-        const tasks = new Tracelib(this._events)
-        const memoryInfo = tasks.getMemoryCounters();
-        return memoryInfo;
     }
 }

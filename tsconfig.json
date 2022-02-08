@@ -6,9 +6,11 @@
         "outDir": "./dist",
         "strict": true,
         "resolveJsonModule": true,
+        "noImplicitAny": false
     },
     "include": [
-        "src/**/*.ts"
+        "src/**/*.ts",
+        "./node_modules/lighthouse/types/**/*.d.ts"
     ],
     "exclude": [
         "node_modules",

@@ -1,0 +1,68 @@
+import { Builder } from "selenium-webdriver";
+import * as chrome from "selenium-webdriver/chrome";
+import 'chromedriver';
+import { CDPClient } from "../cdpClient";
+import { GooglePage } from '../pages/googlePage';
+import { Lighthouse } from '../lighthouse';
+import { config } from "../config/config";
+import { getFreePort } from 'endpoint-utils';
+
+jest.setTimeout(config.maxTimeout);
+
+const DESKTOP_USERAGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4695.0 Safari/537.36 Chrome-Lighthouse'; // eslint-disable-line max-len
+
+test('Test Lighthouse', async () => {
+
+    const port = await getFreePort();
+    const options = new chrome.Options();
+
+    options.addArguments(`--remote-debugging-port=${port}`);
+
+    const driver = await new Builder().forBrowser('chrome')
+        .setChromeOptions(options)
+        .build();
+
+    const googlePage = new GooglePage(driver);
+
+    const cdpClient = new CDPClient();
+    await cdpClient.init(port);
+
+    const lighthouse = new Lighthouse(port, 'lighthouse.html');
+
+    await lighthouse.initWorkFlow('Google search', {
+        formFactor: 'desktop',
+        screenEmulation: {
+            mobile: false,
+            width: 900,
+            height: 1600,
+            deviceScaleFactor: 1,
+            disabled: false,
+        },
+        emulatedUserAgent: DESKTOP_USERAGENT,
+        throttlingMethod: 'provided',
+        throttling: {
+            cpuSlowdownMultiplier: 1,
+            requestLatencyMs: 0,
+            downloadThroughputKbps: 0,
+            uploadThroughputKbps: 0
+        }
+    })
+
+    await lighthouse.navigate("https://www.google.com");
+
+    await lighthouse.startTrace('search operation');
+
+    await googlePage.search('test');
+
+    const res = await lighthouse.stopTrace();
+
+    lighthouse.generateReport();
+
+    // expect(tracingResults.length).toBeGreaterThan(0);
+
+    await cdpClient.close();
+
+    await driver.quit();
+});
+
+

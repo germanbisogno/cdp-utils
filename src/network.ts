@@ -19,6 +19,7 @@ const observe = [
     'Network.resourceChangedPriority',
     'Network.loadingFinished',
     'Network.loadingFailed',
+    'Network.requestFinished'
 ];
 
 export const NETWORK_PRESETS = {
