@@ -27,7 +27,7 @@ test('Test Lighthouse', async () => {
     const cdpClient = new CDPClient();
     await cdpClient.init(port);
 
-    const lighthouse = new Lighthouse(port, 'lighthouse.html');
+    const lighthouse = new Lighthouse(port);
 
     await lighthouse.initWorkFlow('Google search', {
         formFactor: 'desktop',
@@ -56,9 +56,9 @@ test('Test Lighthouse', async () => {
 
     const res = await lighthouse.stopTrace();
 
-    lighthouse.generateReport();
+    lighthouse.generateFlowReport('lighthouse.html');
 
-    // expect(tracingResults.length).toBeGreaterThan(0);
+    expect(res.lhr.categories.performance.score).toBeGreaterThan(0.8);
 
     await cdpClient.close();
 

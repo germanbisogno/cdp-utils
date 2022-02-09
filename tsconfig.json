@@ -6,7 +6,9 @@
         "outDir": "./dist",
         "strict": true,
         "resolveJsonModule": true,
-        "noImplicitAny": false
+        "esModuleInterop": true,
+        "noImplicitAny": false,
+        "skipLibCheck": true
     },
     "include": [
         "src/**/*.ts",

@@ -1,4 +1,4 @@
-import * as CDP from "chrome-remote-interface";
+import CDP from "chrome-remote-interface";
 import { logger } from "./utils/logger";
 
 export class CDPClient {
