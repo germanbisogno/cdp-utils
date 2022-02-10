@@ -106,8 +106,6 @@ test('Test performance', async () => {
 
 ```
 
-```
-
 An example using the Lighthouse class with Selenium Webdriver.  Notice that it combines lighthouse/puppeteer in order to initialize the workflow with the configuration required and navigate to the first page.
 
 ```js
