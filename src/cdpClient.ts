@@ -1,8 +1,8 @@
-import * as CDP from "chrome-remote-interface";
+import CDP from "chrome-remote-interface";
 import { logger } from "./utils/logger";
 
 export class CDPClient {
-    private _client: CDP.Client | undefined;
+    private _client: any | undefined;
 
     /**
      * Initializes the CDP client connection
@@ -12,6 +12,7 @@ export class CDPClient {
     public async init(port: number | undefined): Promise<CDP.Client> {
         try {
             this._client = await CDP({ port });
+
             logger.info('CDP Session created using port: ' + port);
             return this._client;
         } catch (e) {

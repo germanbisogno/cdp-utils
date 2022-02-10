@@ -25,14 +25,11 @@ test('Test Tracing', async () => {
     const cdpClient = new CDPClient();
     const client = await cdpClient.init(port);
 
-    // Shows FPS Counter
-    await client.send('Overlay.setShowFPSCounter', { show: true });
-
     const tracing = new Tracing(client, 'tracing.json');
 
-    await tracing.startTrace();
-
     await driver.get("https://www.google.com");
+
+    await tracing.startTrace();
 
     await googlePage.search('test');
 
@@ -44,4 +41,5 @@ test('Test Tracing', async () => {
 
     await driver.quit();
 });
+
 
