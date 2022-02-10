@@ -106,6 +106,71 @@ test('Test performance', async () => {
 
 ```
 
+```
+
+An example using the Lighthouse class with Selenium Webdriver.  Notice that it combines lighthouse/puppeteer in order to initialize the workflow with the configuration required and navigate to the first page.
+
+```js
+
+import { CDPClient, Lighthouse } from "cdp-utils";
+
+test('Test performance', async () => {
+    const options = new chrome.Options();
+
+    options.addArguments(`--remote-debugging-port=${port}`);
+
+    const driver = await new Builder().forBrowser('chrome')
+        .setChromeOptions(options)
+        .build();
+
+    const googlePage = new GooglePage(driver);
+    
+    // Initializes the CDP client connection
+    const cdpClient = new CDPClient();
+    await cdpClient.init(port);
+
+    const lighthouse = new Lighthouse(port);
+
+    await lighthouse.initWorkFlow('Google search', {
+        formFactor: 'desktop',
+        screenEmulation: {
+            mobile: false,
+            width: 900,
+            height: 1600,
+            deviceScaleFactor: 1,
+            disabled: false,
+        },
+        emulatedUserAgent: DESKTOP_USERAGENT,
+        throttlingMethod: 'provided',
+        throttling: {
+            cpuSlowdownMultiplier: 1,
+            requestLatencyMs: 0,
+            downloadThroughputKbps: 0,
+            uploadThroughputKbps: 0
+        }
+    })
+
+    await lighthouse.navigate("https://www.google.com");
+
+    await lighthouse.startTrace('search operation');
+
+    await googlePage.search('test');
+
+    const res = await lighthouse.stopTrace();
+
+    lighthouse.generateFlowReport('lighthouse.html');
+
+    await cdpClient.close();
+
+    await driver.quit();
+    
+    // make assertions using RunnerResult
+    expect(res.lhr.categories.performance.score).toBeGreaterThan(0.8);
+
+}
+
+```
+
 ## Install
 
 ```sh

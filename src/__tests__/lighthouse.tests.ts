@@ -58,11 +58,12 @@ test('Test Lighthouse', async () => {
 
     lighthouse.generateFlowReport('lighthouse.html');
 
-    expect(res.lhr.categories.performance.score).toBeGreaterThan(0.8);
-
     await cdpClient.close();
 
     await driver.quit();
+
+    expect(res.lhr.categories.performance.score).toBeGreaterThan(0.8);
+
 });
 
 
