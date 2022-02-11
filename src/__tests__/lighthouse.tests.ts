@@ -6,6 +6,7 @@ import { GooglePage } from '../pages/googlePage';
 import { Lighthouse } from '../lighthouse';
 import { config } from "../config/config";
 import { getFreePort } from 'endpoint-utils';
+import * as DesktopConfig from 'lighthouse/lighthouse-core/config/desktop-config.js';
 
 jest.setTimeout(config.maxTimeout);
 
@@ -29,24 +30,7 @@ test('Test Lighthouse', async () => {
 
     const lighthouse = new Lighthouse(port);
 
-    await lighthouse.initWorkFlow('Google search', {
-        formFactor: 'desktop',
-        screenEmulation: {
-            mobile: false,
-            width: 900,
-            height: 1600,
-            deviceScaleFactor: 1,
-            disabled: false,
-        },
-        emulatedUserAgent: DESKTOP_USERAGENT,
-        throttlingMethod: 'provided',
-        throttling: {
-            cpuSlowdownMultiplier: 1,
-            requestLatencyMs: 0,
-            downloadThroughputKbps: 0,
-            uploadThroughputKbps: 0
-        }
-    })
+    await lighthouse.initWorkFlow('Google search', DesktopConfig.settings)
 
     await lighthouse.navigate("https://www.google.com");
 
@@ -62,7 +46,7 @@ test('Test Lighthouse', async () => {
 
     await driver.quit();
 
-    expect(res.lhr.categories.performance.score).toBeGreaterThan(0.8);
+    expect(res.lhr.categories.performance.score).toBeGreaterThanOrEqual(0.8);
 
 });
 
