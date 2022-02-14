@@ -20,7 +20,7 @@ You are very welcome if you feel that can contribute with more utilities to take
 
 ## Usage
 
-# Tracing
+### Tracing
 
 The following example shows how to use the Tracing class with Selenium Webdriver.
 
@@ -65,7 +65,7 @@ test('Test tracing', async () => {
 
 ```
 
-# Performance
+### Performance
 
 An example using the Performance class with Selenium Webdriver.
 
@@ -110,7 +110,7 @@ test('Test performance', async () => {
 
 ```
 
-# Lighthouse
+### Lighthouse
 
 An example using the Lighthouse class with Selenium Webdriver.  Notice that it combines lighthouse/puppeteer in order to initialize the workflow with the configuration required and navigate to the first page.
 
