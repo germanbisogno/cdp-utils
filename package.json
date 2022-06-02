@@ -23,7 +23,7 @@
     "@types/chrome-remote-interface": "^0.31.4",
     "@types/jest": "^27.0.2",
     "@types/selenium-webdriver": "^4.0.16",
-    "chromedriver": "latest",
+    "chromedriver": "^101.0.0",
     "endpoint-utils": "^1.0.2",
     "jest": "^27.4.5",
     "prettier": "^2.4.1",
