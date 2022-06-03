@@ -15,7 +15,7 @@
     "lint": "tslint -p tsconfig.json",
     "doc": "compodoc -p --tsconfig tsconfig.json -s"
   },
-  "keywords": [],
+  "keywords": ["chrome dev tools", "cdp", "tracing", "performance", "lighthouse", "network", "testing", "selenium"],
   "author": "Germán Bisogno",
   "license": "MIT",
   "devDependencies": {
