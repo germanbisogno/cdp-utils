@@ -3,17 +3,19 @@
         "traceConfig": {
             "includedCategories": [
                 "-*",
+                "devtools.timeline",
+                "v8.execute",
+                "disabled-by-default-devtools.timeline",
+                "disabled-by-default-devtools.timeline.frame",
                 "toplevel",
                 "blink.console",
                 "blink.user_timing",
-                "benchmark",
-                "loading",
                 "latencyInfo",
-                "devtools.timeline",
                 "disabled-by-default-devtools.timeline",
                 "disabled-by-default-devtools.timeline.frame",
                 "disabled-by-default-devtools.timeline.stack",
-                "disabled-by-default-devtools.screenshot"
+                "disabled-by-default-devtools.screenshot",
+                "disabled-by-default-v8.cpu_profiler"
             ],
             "excludedCategories": [
                 "-*"
