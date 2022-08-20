@@ -26,7 +26,7 @@ test('Test Lighthouse', async () => {
 
     const lighthouse = new Lighthouse(port);
 
-    await lighthouse.initWorkFlow('Google search', DesktopConfig.settings)
+    await lighthouse.initWorkFlow('Google search', DesktopConfig.settings);
 
     await lighthouse.navigate("https://www.google.com");
 
