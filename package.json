@@ -1,6 +1,6 @@
 {
   "name": "@gbisogno/cdp-utils",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A set of utilities/wrapper for Test Automation or Performance testing on top of Chrome DevTools Protocol",
   "repository": {
     "type": "git",
@@ -33,7 +33,7 @@
     "@types/chrome-remote-interface": "^0.31.4",
     "@types/jest": "^27.5.2",
     "@types/selenium-webdriver": "^4.0.16",
-    "chromedriver": "^104.0.0",
+    "chromedriver": "latest",
     "endpoint-utils": "^1.0.2",
     "jest": "^27.4.5",
     "prettier": "^2.4.1",
@@ -45,7 +45,6 @@
     "typescript": "^4.4.4"
   },
   "dependencies": {
-    "@influxdata/influxdb-client": "^1.21.0",
     "@types/har-format": "^1.2.8",
     "@types/node": "^17.0.14",
     "axios": "^0.25.0",
