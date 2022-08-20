@@ -117,6 +117,7 @@ An example using the Lighthouse class with Selenium Webdriver.  Notice that it c
 ```js
 
 import { CDPClient, Lighthouse } from "cdp-utils";
+import * as DesktopConfig from 'lighthouse/lighthouse-core/config/desktop-config.js';
 
 test('Test performance', async () => {
     const options = new chrome.Options();
@@ -131,24 +132,7 @@ test('Test performance', async () => {
     
     const lighthouse = new Lighthouse(port);
 
-    await lighthouse.initWorkFlow('Google search', {
-        formFactor: 'desktop',
-        screenEmulation: {
-            mobile: false,
-            width: 900,
-            height: 1600,
-            deviceScaleFactor: 1,
-            disabled: false,
-        },
-        emulatedUserAgent: DESKTOP_USERAGENT,
-        throttlingMethod: 'provided',
-        throttling: {
-            cpuSlowdownMultiplier: 1,
-            requestLatencyMs: 0,
-            downloadThroughputKbps: 0,
-            uploadThroughputKbps: 0
-        }
-    })
+    await lighthouse.initWorkFlow('Google search', DesktopConfig.settings);
 
     await lighthouse.navigate("https://www.google.com");
 
@@ -162,8 +146,10 @@ test('Test performance', async () => {
 
     await driver.quit();
     
-    // make assertions using RunnerResult
-    expect(res.lhr.categories.performance.score).toBeGreaterThan(0.8);
+    // make assertions using RunnerResult array
+    res.forEach((step) => {
+        expect(step.lhr.categories.performance.score).toBeGreaterThanOrEqual(0.8);
+    })
 
 }
 
