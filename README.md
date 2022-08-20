@@ -129,10 +129,6 @@ test('Test performance', async () => {
 
     const googlePage = new GooglePage(driver);
     
-    // Initializes the CDP client connection
-    const cdpClient = new CDPClient();
-    await cdpClient.init(port);
-
     const lighthouse = new Lighthouse(port);
 
     await lighthouse.initWorkFlow('Google search', {
@@ -163,8 +159,6 @@ test('Test performance', async () => {
     const res = await lighthouse.stopTrace();
 
     lighthouse.generateFlowReport('lighthouse.html');
-
-    await cdpClient.close();
 
     await driver.quit();
     

@@ -7,6 +7,6 @@ export abstract class TraceOperations {
     abstract stopTrace(): Promise<void> | Promise<Protocol.Runtime.ConsoleAPICalledEvent[]>
         | Promise<Protocol.Performance.GetMetricsResponse>
         | Promise<Protocol.Tracing.DataCollectedEvent[]>
-        | Promise<RunnerResult>
+        | Promise<RunnerResult[]>
         | Promise<Har>;
 }

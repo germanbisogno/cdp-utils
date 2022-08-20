@@ -2,7 +2,7 @@ import CDP from "chrome-remote-interface";
 import { logger } from "./utils/logger";
 
 export class CDPClient {
-    private _client: any | undefined;
+    private _client: CDP.Client | undefined;
 
     /**
      * Initializes the CDP client connection
