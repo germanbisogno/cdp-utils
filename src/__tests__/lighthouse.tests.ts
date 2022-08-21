@@ -3,7 +3,6 @@ import * as chrome from "selenium-webdriver/chrome";
 import 'chromedriver';
 import { GooglePage } from '../pages/googlePage';
 import { Lighthouse } from '../lighthouse';
-import { CDPClient } from '../cdpClient';
 import { config } from "../config/config";
 import { getFreePort } from 'endpoint-utils';
 import * as DesktopConfig from 'lighthouse/lighthouse-core/config/desktop-config.js';
