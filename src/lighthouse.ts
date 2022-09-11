@@ -1,6 +1,5 @@
 import { TraceOperations } from "./traceOperations";
 import { startFlow } from 'lighthouse/lighthouse-core/fraggle-rock/api';
-import { computeMedianRun } from 'lighthouse/lighthouse-core/lib/median-run.js';
 import { RunnerResult } from 'lighthouse/types/externs'
 import * as fs from 'fs';
 import puppeteer from "puppeteer";
@@ -94,5 +93,4 @@ export class Lighthouse extends TraceOperations {
     public async snapshot(stepName?: string): Promise<void> {
         await this._flow.snapshot({ stepName });
     }
-
 }
