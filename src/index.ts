@@ -5,5 +5,5 @@ export { Lighthouse } from './lighthouse';
 export { Tracing } from './tracing';
 export { Runtime } from './runtime';
 export { GeoLocation } from './geoLocation';
-export { CDPClient } from './cdpClient';
+export { CDPSession } from './cdpSession';
 export { config } from './config/config';
