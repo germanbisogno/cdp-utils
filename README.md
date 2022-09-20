@@ -26,7 +26,7 @@ The following example shows how to use the Tracing class with Selenium Webdriver
 
 ```js
 
-import { CDPClient, Tracing } from "cdp-utils";
+import { CDPSession, Tracing } from "cdp-utils";
 
 test('Test tracing', async () => {
     const options = new chrome.Options();
@@ -40,11 +40,10 @@ test('Test tracing', async () => {
     const googlePage = new GooglePage(driver);
 
     // Initializes the CDP client connection
-    const cdpClient = new CDPClient();
-    const client = await cdpClient.init(port);
-
+    await CDPSession.init(port);
+    
     // Instantiates the class and produces a file as result of the trace
-    const tracing = new Tracing(client, 'trace.json');
+    const tracing = new Tracing('tracing.json');
 
     // start tracing
     await tracing.startTrace();
@@ -57,7 +56,7 @@ test('Test tracing', async () => {
     // do whatever with trace
 
     // Close the CDP client connection
-    await cdpClient.close()
+    await CDPSession.close()
 
     await driver.quit();
 
@@ -71,7 +70,7 @@ An example using the Performance class with Selenium Webdriver.
 
 ```js
 
-import { CDPClient, Performance } from "cdp-utils";
+import { CDPSession, Performance } from "cdp-utils";
 
 test('Test performance', async () => {
     const options = new chrome.Options();
@@ -85,11 +84,10 @@ test('Test performance', async () => {
     const googlePage = new GooglePage(driver);
     
     // Initializes the CDP client connection
-    const cdpClient = new CDPClient();
-    const client = await cdpClient.init(port);
+    await CDPSession.init(port);
     
     // Instantiates the class and produces two files as result of the trace
-    const performance = new Performance(client, 'startTrace.json', 'endTrace.json');
+    const performance = new Performance('startTrace.json', 'endTrace.json');
 
     // start tracing
     const perfStartResults = await performance.startTrace();
@@ -103,7 +101,7 @@ test('Test performance', async () => {
     // Perform assertions or do whatever with perfStartResults or perfEndResults
 
     // Close the CDP client connection
-    await cdpClient.close()
+    await CDPSession.close()
 
     await driver.quit();
 }

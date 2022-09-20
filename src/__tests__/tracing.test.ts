@@ -1,7 +1,7 @@
 import { Builder } from "selenium-webdriver";
 import * as chrome from "selenium-webdriver/chrome";
 import 'chromedriver';
-import { CDPClient } from "../cdpClient";
+import { CDPSession } from '../cdpSession';
 import { GooglePage } from '../pages/googlePage';
 import { Tracing } from '../tracing';
 import { config } from "../config/config";
@@ -22,10 +22,9 @@ test('Test Tracing', async () => {
 
     const googlePage = new GooglePage(driver);
 
-    const cdpClient = new CDPClient();
-    const client = await cdpClient.init(port);
-
-    const tracing = new Tracing(client, 'tracing.json');
+    await CDPSession.init(port);
+    
+    const tracing = new Tracing('tracing.json');
 
     await driver.get("https://www.google.com");
 
@@ -37,7 +36,7 @@ test('Test Tracing', async () => {
 
     expect(tracingResults.length).toBeGreaterThan(0);
 
-    await cdpClient.close();
+    await CDPSession.close();
 
     await driver.quit();
 });

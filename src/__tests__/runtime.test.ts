@@ -3,7 +3,7 @@ import * as chrome from "selenium-webdriver/chrome";
 import 'chromedriver';
 import { GooglePage } from '../pages/googlePage';
 import { Runtime } from '../runtime';
-import { CDPClient } from '../cdpClient';
+import { CDPSession } from '../cdpSession';
 import { config } from "../config/config";
 import { getFreePort } from 'endpoint-utils';
 
@@ -22,9 +22,8 @@ test('Test Runtime', async () => {
 
     const googlePage = new GooglePage(driver);
 
-    const cdpClient = new CDPClient();
-    const client = await cdpClient.init(port);
-    const runtime = new Runtime(client, 'console.json');
+    await CDPSession.init(port);
+    const runtime = new Runtime('console.json');
 
     await runtime.startTrace();
 
@@ -44,7 +43,7 @@ test('Test Runtime', async () => {
     expect(consoleResults.find(x => x.type === 'warning')).toBeDefined();
     expect(consoleResults.find(x => x.type === 'log')).toBeDefined();
 
-    await cdpClient.close();
+    await CDPSession.close();
 
     await driver.quit()
 

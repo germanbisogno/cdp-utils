@@ -1,18 +1,16 @@
-import * as CDP from 'chrome-remote-interface';
 import { TraceOperations } from './traceOperations'
 import { logger } from "./utils/logger";
 import { Protocol } from 'devtools-protocol';
 import * as fs from 'fs';
+import { CDPSession } from './cdpSession';
 
 export class Performance extends TraceOperations {
-    private _client: CDP.Client;
     private _startTraceFileName: string;
     private _endTraceFileName: string;
 
-    constructor(client: CDP.Client, startTraceFileName: string = '',
+    constructor(startTraceFileName: string = '',
         endTraceFileName: string = '') {
         super();
-        this._client = client;
         this._startTraceFileName = startTraceFileName;
         this._endTraceFileName = endTraceFileName;
     }
@@ -22,8 +20,8 @@ export class Performance extends TraceOperations {
      */
     public async startTrace(): Promise<Protocol.Performance.GetMetricsResponse> {
         try {
-            if (this._client) {
-                await this._client.send("Performance.enable");
+            if (CDPSession.client) {
+                await CDPSession.client.send("Performance.enable");
                 const metrics = await this.getMetrics();
                 if (this._startTraceFileName) {
                     fs.writeFileSync(this._startTraceFileName, JSON.stringify(metrics))
@@ -43,7 +41,7 @@ export class Performance extends TraceOperations {
      */
     public async stopTrace(): Promise<Protocol.Performance.GetMetricsResponse> {
         try {
-            if (this._client) {
+            if (CDPSession.client) {
                 const metrics = await this.getMetrics();
                 if (this._endTraceFileName) {
                     fs.writeFileSync(this._endTraceFileName, JSON.stringify(metrics))
@@ -54,7 +52,7 @@ export class Performance extends TraceOperations {
             logger.error(e);
             throw e;
         } finally {
-            await this._client.send("Performance.disable");
+            await CDPSession.client.send("Performance.disable");
         }
         return { metrics: [] };
     }
@@ -64,8 +62,8 @@ export class Performance extends TraceOperations {
      * @returns response metrics
      */
     private async getMetrics(): Promise<Protocol.Performance.GetMetricsResponse> {
-        if (this._client) {
-            const response = await this._client.send('Performance.getMetrics');
+        if (CDPSession.client) {
+            const response = await CDPSession.client.send('Performance.getMetrics');
             return response;
         }
         return { metrics: [] };

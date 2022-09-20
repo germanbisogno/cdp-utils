@@ -1,17 +1,15 @@
-import * as CDP from 'chrome-remote-interface';
 import { logger } from "./utils/logger";
 import * as fs from 'fs';
 import { TraceOperations } from "./traceOperations";
 import { Protocol } from 'devtools-protocol';
+import { CDPSession } from './cdpSession';
 
 export class Runtime extends TraceOperations {
-    private _client: CDP.Client;
     private _consoleLogEntries: Protocol.Runtime.ConsoleAPICalledEvent[] = [];
     private _traceFileName: string;
 
-    constructor(client: CDP.Client, traceFileName: string = '') {
+    constructor(traceFileName: string = '') {
         super();
-        this._client = client;
         this._traceFileName = traceFileName;
     }
 
@@ -20,9 +18,9 @@ export class Runtime extends TraceOperations {
      */
     public async startTrace(): Promise<void> {
         try {
-            if (this._client) {
-                await this._client.send('Runtime.enable');
-                this._client['Runtime.consoleAPICalled']((event: Protocol.Runtime.ConsoleAPICalledEvent) => {
+            if (CDPSession.client) {
+                await CDPSession.client.send('Runtime.enable');
+                CDPSession.client['Runtime.consoleAPICalled']((event: Protocol.Runtime.ConsoleAPICalledEvent) => {
                     this._consoleLogEntries.push(event);
                 });
             }
@@ -37,7 +35,7 @@ export class Runtime extends TraceOperations {
      */
     public async stopTrace(): Promise<Protocol.Runtime.ConsoleAPICalledEvent[]> {
         try {
-            if (this._client) {
+            if (CDPSession.client) {
                 if (this._traceFileName) {
                     fs.writeFileSync(this._traceFileName, JSON.stringify(this._consoleLogEntries));
                 }
@@ -47,7 +45,7 @@ export class Runtime extends TraceOperations {
             logger.error(e);
             throw e;
         } finally {
-            await this._client.send('Runtime.disable');
+            await CDPSession.client.send('Runtime.disable');
         }
         return [];
     }
