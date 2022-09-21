@@ -4,7 +4,6 @@
         "module": "commonjs",
         "declaration": true,
         "outDir": "./dist",
-        "strict": true,
         "resolveJsonModule": true,
         "esModuleInterop": true,
         "noImplicitAny": false,
@@ -12,8 +11,7 @@
     },
     "include": [
         "src/**/*.ts",
-        "./node_modules/lighthouse/types/**/*.d.ts"
-, "src/cdpSessionts"    ],
+        "./node_modules/lighthouse/types/**/*.d.ts" ],
     "exclude": [
         "node_modules",
         "**/__tests__/*",
