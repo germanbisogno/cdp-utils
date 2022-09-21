@@ -114,7 +114,7 @@ An example using the Lighthouse class with Selenium Webdriver.  Notice that it c
 
 ```js
 
-import { CDPClient, Lighthouse } from "cdp-utils";
+import { Lighthouse } from "cdp-utils";
 import * as DesktopConfig from 'lighthouse/lighthouse-core/config/desktop-config.js';
 
 test('Test performance', async () => {
