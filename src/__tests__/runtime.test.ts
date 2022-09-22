@@ -22,8 +22,10 @@ test('Test Runtime', async () => {
 
     const googlePage = new GooglePage(driver);
 
-    await CDPSession.init(port);
-    const runtime = new Runtime('console.json');
+    const cdpSession = new CDPSession();
+    await cdpSession.init(port);
+
+    const runtime = new Runtime(cdpSession, 'console.json');
 
     await runtime.startTrace();
 
@@ -43,7 +45,7 @@ test('Test Runtime', async () => {
     expect(consoleResults.find(x => x.type === 'warning')).toBeDefined();
     expect(consoleResults.find(x => x.type === 'log')).toBeDefined();
 
-    await CDPSession.close();
+    await cdpSession.close();
 
     await driver.quit()
 

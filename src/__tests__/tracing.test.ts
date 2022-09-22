@@ -22,9 +22,10 @@ test('Test Tracing', async () => {
 
     const googlePage = new GooglePage(driver);
 
-    await CDPSession.init(port);
+    const cdpSession = new CDPSession();
+    await cdpSession.init(port);
     
-    const tracing = new Tracing('tracing.json');
+    const tracing = new Tracing(cdpSession, 'tracing.json');
 
     await driver.get("https://www.google.com");
 
@@ -36,7 +37,7 @@ test('Test Tracing', async () => {
 
     expect(tracingResults.length).toBeGreaterThan(0);
 
-    await CDPSession.close();
+    await cdpSession.close();
 
     await driver.quit();
 });

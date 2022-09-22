@@ -5,6 +5,7 @@ import { logger } from "./utils/logger";
 import { NetworkConditions } from './interfaces/networkConditions';
 import { Har } from 'har-format';
 import { CDPSession } from './cdpSession';
+import CDP from 'chrome-remote-interface';
 
 // event types to observe
 const observe = [
@@ -76,9 +77,11 @@ export const NETWORK_PRESETS = {
 export class Network extends TraceOperations {
     private _traceFileName: string;
     protected _events: any[] = [];
+    private _client: CDP.Client;
 
-    constructor(traceFileName: string = '') {
+    constructor(cdpSession: CDPSession, traceFileName: string = '') {
         super();
+        this._client = cdpSession.client;
         this._traceFileName = traceFileName;
     }
 
@@ -87,11 +90,11 @@ export class Network extends TraceOperations {
      */
     public async startTrace(): Promise<void> {
         try {
-            if (CDPSession.client) {
-                await CDPSession.client.send('Page.enable');
-                await CDPSession.client.send('Network.enable');
+            if (this._client) {
+                await this._client.send('Page.enable');
+                await this._client.send('Network.enable');
                 observe.forEach(method => {
-                    CDPSession.client.on(method, params => {
+                    this._client.on(method, params => {
                         this._events.push({ method, params });
                     });
                 });
@@ -108,7 +111,7 @@ export class Network extends TraceOperations {
      */
     public async stopTrace(): Promise<Har> {
         try {
-            if (CDPSession.client) {
+            if (this._client) {
                 const har = await harFromMessages(this._events, { includeTextFromResponseBody: true });
                 if (this._traceFileName) {
                     fs.writeFileSync(this._traceFileName, JSON.stringify(har));
@@ -119,8 +122,8 @@ export class Network extends TraceOperations {
             logger.error(e);
             throw e;
         } finally {
-            await CDPSession.client.send('Page.disable');
-            await CDPSession.client.send('Network.disable');
+            await this._client.send('Page.disable');
+            await this._client.send('Network.disable');
         }
         return { log: { entries: [], version: '', creator: { name: '', version: '' } } }
     }
@@ -131,8 +134,8 @@ export class Network extends TraceOperations {
      */
     public async emulateNetworkConditions(networkConditions: NetworkConditions): Promise<void> {
         try {
-            if (CDPSession.client) {
-                await CDPSession.client.send('Network.emulateNetworkConditions', networkConditions);
+            if (this._client) {
+                await this._client.send('Network.emulateNetworkConditions', networkConditions);
             }
         } catch (e) {
             logger.error(e);

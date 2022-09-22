@@ -3,13 +3,16 @@ import * as fs from 'fs';
 import { TraceOperations } from "./traceOperations";
 import { Protocol } from 'devtools-protocol';
 import { CDPSession } from './cdpSession';
+import CDP from "chrome-remote-interface";
 
 export class Runtime extends TraceOperations {
     private _consoleLogEntries: Protocol.Runtime.ConsoleAPICalledEvent[] = [];
     private _traceFileName: string;
+    private _client: CDP.Client;
 
-    constructor(traceFileName: string = '') {
+    constructor(cdpSession: CDPSession, traceFileName: string = '') {
         super();
+        this._client = cdpSession.client;
         this._traceFileName = traceFileName;
     }
 
@@ -18,9 +21,9 @@ export class Runtime extends TraceOperations {
      */
     public async startTrace(): Promise<void> {
         try {
-            if (CDPSession.client) {
-                await CDPSession.client.send('Runtime.enable');
-                CDPSession.client['Runtime.consoleAPICalled']((event: Protocol.Runtime.ConsoleAPICalledEvent) => {
+            if (this._client) {
+                await this._client.send('Runtime.enable');
+                this._client['Runtime.consoleAPICalled']((event: Protocol.Runtime.ConsoleAPICalledEvent) => {
                     this._consoleLogEntries.push(event);
                 });
             }
@@ -35,7 +38,7 @@ export class Runtime extends TraceOperations {
      */
     public async stopTrace(): Promise<Protocol.Runtime.ConsoleAPICalledEvent[]> {
         try {
-            if (CDPSession.client) {
+            if (this._client) {
                 if (this._traceFileName) {
                     fs.writeFileSync(this._traceFileName, JSON.stringify(this._consoleLogEntries));
                 }
@@ -45,7 +48,7 @@ export class Runtime extends TraceOperations {
             logger.error(e);
             throw e;
         } finally {
-            await CDPSession.client.send('Runtime.disable');
+            await this._client.send('Runtime.disable');
         }
         return [];
     }

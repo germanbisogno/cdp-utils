@@ -2,16 +2,16 @@ import CDP from "chrome-remote-interface";
 import { logger } from "./utils/logger";
 
 export class CDPSession{
-    public static client: CDP.Client;
+    private _client: CDP.Client;
 
     /**
      * Initializes the CDP client connection
      * @port a given port number
      * @returns CDP Client
      */
-    public static async init(port: number): Promise<void> {
+    public async init(port: number): Promise<void> {
         try {
-            this.client = await CDP({ port });
+            this._client = await CDP({ port });
 
             logger.info('CDP Session created using port: ' + port);
         } catch (e) {
@@ -21,11 +21,18 @@ export class CDPSession{
     }
 
     /**
+     * Gets the CDP client connection
+     */
+    public get client(): CDP.Client {
+        return this._client;
+    }
+
+    /**
      * Closes the CDP client connection
      */
-    public static async close(): Promise<void> {
-        if (this.client) {
-            await this.client.close()
+    public async close(): Promise<void> {
+        if (this._client) {
+            await this._client.close()
         }
     }
 }
