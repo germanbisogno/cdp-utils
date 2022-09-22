@@ -4,7 +4,7 @@ import { TraceOperations } from './traceOperations'
 import { logger } from "./utils/logger";
 import { NetworkConditions } from './interfaces/networkConditions';
 import { Har } from 'har-format';
-import { CDPSession } from './cdpSession';
+import { CDPClient } from './cdpClient';
 import CDP from 'chrome-remote-interface';
 
 // event types to observe
@@ -79,9 +79,9 @@ export class Network extends TraceOperations {
     protected _events: any[] = [];
     private _client: CDP.Client;
 
-    constructor(cdpSession: CDPSession, traceFileName: string = '') {
+    constructor(cdpClient: CDPClient, traceFileName: string = '') {
         super();
-        this._client = cdpSession.client;
+        this._client = cdpClient.get();
         this._traceFileName = traceFileName;
     }
 

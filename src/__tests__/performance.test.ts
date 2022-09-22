@@ -3,7 +3,7 @@ import * as chrome from "selenium-webdriver/chrome";
 import 'chromedriver';
 import { GooglePage } from '../pages/googlePage';
 import { Performance } from '../performance';
-import { CDPSession } from '../cdpSession';
+import { CDPClient } from '../cdpClient';
 import { config } from "../config/config";
 import { getFreePort } from 'endpoint-utils';
 
@@ -22,10 +22,10 @@ test('Test Performance', async () => {
 
     const googlePage = new GooglePage(driver);
 
-    const cdpSession = new CDPSession();
-    await cdpSession.init(port);
+    const cdpClient = new CDPClient();
+    await cdpClient.init(port);
 
-    const performance = new Performance(cdpSession, 'startTrace.json', 'endTrace.json');
+    const performance = new Performance(cdpClient, 'startTrace.json', 'endTrace.json');
 
     const perfStartResults = await performance.startTrace();
 
@@ -38,7 +38,7 @@ test('Test Performance', async () => {
     expect(perfStartResults.metrics.length).toBeGreaterThan(0);
     expect(perfEndResults.metrics.length).toBeGreaterThan(0);
 
-    await cdpSession.close();
+    await cdpClient.close();
 
     await driver.quit()
 

@@ -4,16 +4,16 @@ import { config } from "./config/config";
 import { TraceOperations } from './traceOperations'
 import { logger } from "./utils/logger";
 import { Protocol } from 'devtools-protocol';
-import { CDPSession } from './cdpSession';
+import { CDPClient } from './cdpClient';
 
 export class Tracing extends TraceOperations {
     private _traceFileName: string;
     private _client: CDP.Client;
     protected _events: Protocol.Tracing.DataCollectedEvent[] = [];
 
-    constructor(cdpSession: CDPSession, traceFileName: string = '') {
+    constructor(cdpClient: CDPClient, traceFileName: string = '') {
         super();
-        this._client = cdpSession.client;
+        this._client = cdpClient.get();
         this._traceFileName = traceFileName;
     }
 
