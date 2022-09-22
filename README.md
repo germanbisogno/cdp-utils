@@ -40,10 +40,11 @@ test('Test tracing', async () => {
     const googlePage = new GooglePage(driver);
 
     // Initializes the CDP client connection
-    await CDPSession.init(port);
+    const cdpSession = new CDPSession();
+    await cdpSession.init(port);
     
     // Instantiates the class and produces a file as result of the trace
-    const tracing = new Tracing('tracing.json');
+    const tracing = new Tracing(cdpSession, 'tracing.json');
 
     // start tracing
     await tracing.startTrace();
@@ -56,7 +57,7 @@ test('Test tracing', async () => {
     // do whatever with trace
 
     // Close the CDP client connection
-    await CDPSession.close()
+    await cdpSession.close()
 
     await driver.quit();
 
@@ -84,10 +85,11 @@ test('Test performance', async () => {
     const googlePage = new GooglePage(driver);
     
     // Initializes the CDP client connection
-    await CDPSession.init(port);
+    const cdpSession = new CDPSession();
+    await cdpSession.init(port);
     
     // Instantiates the class and produces two files as result of the trace
-    const performance = new Performance('startTrace.json', 'endTrace.json');
+    const performance = new Performance(cdpSession, 'startTrace.json', 'endTrace.json');
 
     // start tracing
     const perfStartResults = await performance.startTrace();
@@ -101,7 +103,7 @@ test('Test performance', async () => {
     // Perform assertions or do whatever with perfStartResults or perfEndResults
 
     // Close the CDP client connection
-    await CDPSession.close()
+    await cdpSession.close()
 
     await driver.quit();
 }

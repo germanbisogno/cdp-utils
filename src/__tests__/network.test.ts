@@ -23,8 +23,10 @@ test('Test Network', async () => {
 
     const googlePage = new GooglePage(driver);
 
-    await CDPSession.init(port);
-    const network = new Network('network.har');
+    const cdpSession = new CDPSession();
+    await cdpSession.init(port);
+
+    const network = new Network(cdpSession, 'network.har');
 
     await network.startTrace();
 
@@ -35,7 +37,7 @@ test('Test Network', async () => {
     const networkResults: Har = await network.stopTrace();
     expect(networkResults.log.entries.length).toBeGreaterThan(0);
 
-    await CDPSession.close();
+    await cdpSession.close();
 
     await driver.quit()
 

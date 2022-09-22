@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import * as CDP from 'chrome-remote-interface';
 import { config } from "./config/config";
 import { TraceOperations } from './traceOperations'
 import { logger } from "./utils/logger";
@@ -7,10 +8,12 @@ import { CDPSession } from './cdpSession';
 
 export class Tracing extends TraceOperations {
     private _traceFileName: string;
+    private _client: CDP.Client;
     protected _events: Protocol.Tracing.DataCollectedEvent[] = [];
 
-    constructor(traceFileName: string = '') {
+    constructor(cdpSession: CDPSession, traceFileName: string = '') {
         super();
+        this._client = cdpSession.client;
         this._traceFileName = traceFileName;
     }
 
@@ -19,11 +22,11 @@ export class Tracing extends TraceOperations {
      */
     public async startTrace() {
         try {
-            if (CDPSession.client) {
-                CDPSession.client['Tracing.dataCollected'](({ value }: Protocol.Tracing.DataCollectedEvent) => {
+            if (this._client) {
+                this._client['Tracing.dataCollected'](({ value }: Protocol.Tracing.DataCollectedEvent) => {
                     this._events.push(...value);
                 });
-                await CDPSession.client.send('Tracing.start', config.tracing);
+                await this._client.send('Tracing.start', config.tracing);
             }
         } catch (e) {
             logger.error(e);
@@ -37,9 +40,9 @@ export class Tracing extends TraceOperations {
      */
     public async stopTrace(): Promise<Protocol.Tracing.DataCollectedEvent[]> {
         try {
-            if (CDPSession.client) {
-                await CDPSession.client.send('Tracing.end');
-                await CDPSession.client['Tracing.tracingComplete']();
+            if (this._client) {
+                await this._client.send('Tracing.end');
+                await this._client['Tracing.tracingComplete']();
 
                 if (this._traceFileName) {
                     fs.writeFileSync(this._traceFileName, JSON.stringify(this._events, null, 2))

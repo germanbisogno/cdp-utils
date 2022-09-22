@@ -22,8 +22,10 @@ test('Test Performance', async () => {
 
     const googlePage = new GooglePage(driver);
 
-    await CDPSession.init(port);
-    const performance = new Performance('startTrace.json', 'endTrace.json');
+    const cdpSession = new CDPSession();
+    await cdpSession.init(port);
+
+    const performance = new Performance(cdpSession, 'startTrace.json', 'endTrace.json');
 
     const perfStartResults = await performance.startTrace();
 
@@ -36,7 +38,7 @@ test('Test Performance', async () => {
     expect(perfStartResults.metrics.length).toBeGreaterThan(0);
     expect(perfEndResults.metrics.length).toBeGreaterThan(0);
 
-    await CDPSession.close();
+    await cdpSession.close();
 
     await driver.quit()
 
