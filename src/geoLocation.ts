@@ -1,5 +1,5 @@
 import * as CDP from 'chrome-remote-interface';
-import { CDPSession } from './cdpSession';
+import { CDPClient } from './cdpClient';
 
 import { Coordinates } from './interfaces/coordinates'
 import { logger } from "./utils/logger";
@@ -7,8 +7,8 @@ import { logger } from "./utils/logger";
 export class GeoLocation {
     private _client: CDP.Client;
 
-    constructor(cdpSession: CDPSession) {
-        this._client = cdpSession.client;
+    constructor(cdpClient: CDPClient) {
+        this._client = cdpClient.get();
     }
     /**
      * Emulates a geo location by coordinates

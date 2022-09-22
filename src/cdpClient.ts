@@ -1,7 +1,7 @@
 import CDP from "chrome-remote-interface";
 import { logger } from "./utils/logger";
 
-export class CDPSession{
+export class CDPClient {
     private _client: CDP.Client;
 
     /**
@@ -23,7 +23,7 @@ export class CDPSession{
     /**
      * Gets the CDP client connection
      */
-    public get client(): CDP.Client {
+    public get(): CDP.Client {
         return this._client;
     }
 

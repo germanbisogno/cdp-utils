@@ -2,7 +2,7 @@ import { TraceOperations } from './traceOperations'
 import { logger } from "./utils/logger";
 import { Protocol } from 'devtools-protocol';
 import * as fs from 'fs';
-import { CDPSession } from './cdpSession';
+import { CDPClient } from './cdpClient';
 import CDP from 'chrome-remote-interface';
 
 export class Performance extends TraceOperations {
@@ -10,10 +10,10 @@ export class Performance extends TraceOperations {
     private _endTraceFileName: string;
     private _client: CDP.Client;
 
-    constructor(cdpSession: CDPSession, startTraceFileName: string = '',
+    constructor(cdpClient: CDPClient, startTraceFileName: string = '',
         endTraceFileName: string = '') {
         super();
-        this._client = cdpSession.client;
+        this._client = cdpClient.get();
         this._startTraceFileName = startTraceFileName;
         this._endTraceFileName = endTraceFileName;
     }

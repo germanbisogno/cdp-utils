@@ -3,7 +3,7 @@ import * as chrome from "selenium-webdriver/chrome";
 import 'chromedriver';
 import { GooglePage } from '../pages/googlePage';
 import { Network } from '../network';
-import { CDPSession } from '../cdpSession';
+import { CDPClient } from '../cdpClient';
 import { config } from "../config/config";
 import { getFreePort } from 'endpoint-utils';
 import { Har } from "har-format";
@@ -23,10 +23,10 @@ test('Test Network', async () => {
 
     const googlePage = new GooglePage(driver);
 
-    const cdpSession = new CDPSession();
-    await cdpSession.init(port);
+    const cdpClient = new CDPClient();
+    await cdpClient.init(port);
 
-    const network = new Network(cdpSession, 'network.har');
+    const network = new Network(cdpClient, 'network.har');
 
     await network.startTrace();
 
@@ -37,7 +37,7 @@ test('Test Network', async () => {
     const networkResults: Har = await network.stopTrace();
     expect(networkResults.log.entries.length).toBeGreaterThan(0);
 
-    await cdpSession.close();
+    await cdpClient.close();
 
     await driver.quit()
 
