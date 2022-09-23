@@ -22,7 +22,7 @@ You are very welcome if you feel that can contribute with more utilities to take
 
 ### Config (Only required for Tracing domain)
 
-Create a config folder and place your cdpConfig.json file there.  It will contain configurations needed for tracing such as including or excluding categories and more.  See the following example of how it will look like:
+Create a config folder and place your cdp.config.json file there.  It will contain configurations needed for tracing such as including or excluding categories and more.  See the following example of how it will look like:
 
 For more information about how to use traceConfig, see [TraceConfig](https://chromedevtools.github.io/devtools-protocol/tot/Tracing/#type-TraceConfig)
 
