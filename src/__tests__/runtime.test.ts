@@ -4,10 +4,10 @@ import 'chromedriver';
 import { GooglePage } from '../pages/googlePage';
 import { Runtime } from '../runtime';
 import { CDPClient } from '../cdpClient';
-import { config } from "../config/config";
 import { getFreePort } from 'endpoint-utils';
+import { cdpConfig } from "../config/cdpConfig";
 
-jest.setTimeout(config.maxTimeout);
+jest.setTimeout(cdpConfig.maxTimeout);
 
 test('Test Runtime', async () => {
 

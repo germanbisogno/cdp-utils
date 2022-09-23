@@ -1,10 +1,10 @@
 import * as fs from 'fs';
 import * as CDP from 'chrome-remote-interface';
-import { config } from "./config/config";
 import { TraceOperations } from './traceOperations'
 import { logger } from "./utils/logger";
 import { Protocol } from 'devtools-protocol';
 import { CDPClient } from './cdpClient';
+import { cdpConfig } from './config/cdpConfig';
 
 export class Tracing extends TraceOperations {
     private _traceFileName: string;
@@ -26,7 +26,7 @@ export class Tracing extends TraceOperations {
                 this._client['Tracing.dataCollected'](({ value }: Protocol.Tracing.DataCollectedEvent) => {
                     this._events.push(...value);
                 });
-                await this._client.send('Tracing.start', config.tracing);
+                await this._client.send('Tracing.start', cdpConfig.tracing);
             }
         } catch (e) {
             logger.error(e);

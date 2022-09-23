@@ -3,11 +3,11 @@ import * as chrome from "selenium-webdriver/chrome";
 import 'chromedriver';
 import { GooglePage } from '../pages/googlePage';
 import { Lighthouse } from '../lighthouse';
-import { config } from "../config/config";
 import { getFreePort } from 'endpoint-utils';
 import * as DesktopConfig from 'lighthouse/lighthouse-core/config/desktop-config.js';
+import { cdpConfig } from "../config/cdpConfig";
 
-jest.setTimeout(config.maxTimeout);
+jest.setTimeout(cdpConfig.maxTimeout);
 
 test('Test Lighthouse', async () => {
 
