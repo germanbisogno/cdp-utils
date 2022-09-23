@@ -4,11 +4,11 @@ import 'chromedriver';
 import { GooglePage } from '../pages/googlePage';
 import { Network } from '../network';
 import { CDPClient } from '../cdpClient';
-import { config } from "../config/config";
 import { getFreePort } from 'endpoint-utils';
 import { Har } from "har-format";
+import { cdpConfig } from "../config/cdpConfig";
 
-jest.setTimeout(config.maxTimeout);
+jest.setTimeout(cdpConfig.maxTimeout);
 
 test('Test Network', async () => {
 

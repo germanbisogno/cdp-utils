@@ -4,10 +4,10 @@ import 'chromedriver';
 import { CDPClient } from '../cdpClient';
 import { GooglePage } from '../pages/googlePage';
 import { Tracing } from '../tracing';
-import { config } from "../config/config";
+import { cdpConfig } from "../config/cdpConfig";
 import { getFreePort } from 'endpoint-utils';
 
-jest.setTimeout(config.maxTimeout);
+jest.setTimeout(cdpConfig.maxTimeout);
 
 test('Test Tracing', async () => {
 

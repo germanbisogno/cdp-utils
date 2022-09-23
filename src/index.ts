@@ -6,4 +6,4 @@ export { Tracing } from './tracing';
 export { Runtime } from './runtime';
 export { GeoLocation } from './geoLocation';
 export { CDPClient } from './cdpClient';
-export { config } from './config/config';
+export { cdpConfig } from './config/cdpConfig';

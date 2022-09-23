@@ -20,6 +20,45 @@ You are very welcome if you feel that can contribute with more utilities to take
 
 ## Usage
 
+### Config (Only required for Tracing domain)
+
+Create a config folder and place your cdpConfig.json file there.  It will contain configurations needed for tracing such as including or excluding categories and more.  See the following example of how it will look like:
+
+For more information about how to use traceConfig, see [TraceConfig](https://chromedevtools.github.io/devtools-protocol/tot/Tracing/#type-TraceConfig)
+
+```json
+
+{
+    "tracing": {
+        "traceConfig": {
+            "includedCategories": [
+                "-*",
+                "devtools.timeline",
+                "v8.execute",
+                "disabled-by-default-devtools.timeline",
+                "disabled-by-default-devtools.timeline.frame",
+                "toplevel",
+                "blink.console",
+                "blink.user_timing",
+                "latencyInfo",
+                "disabled-by-default-devtools.timeline",
+                "disabled-by-default-devtools.timeline.frame",
+                "disabled-by-default-devtools.timeline.stack",
+                "disabled-by-default-devtools.screenshot",
+                "disabled-by-default-v8.cpu_profiler"
+            ],
+            "excludedCategories": [
+                "-*"
+            ]
+        }
+    },
+    "cdpPort": 9222,
+    "maxTimeout": 50000
+}
+
+```
+
+
 ### Tracing
 
 The following example shows how to use the Tracing class with Selenium Webdriver.
