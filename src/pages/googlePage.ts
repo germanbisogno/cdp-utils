@@ -16,4 +16,10 @@ export class GooglePage {
         await el.sendKeys(criteria);
         await el.sendKeys(Key.RETURN);
     }
+
+    async searchFromClipboard(): Promise<void> {
+        await this._driver.executeScript("await navigator.clipboard.writeText('test');");
+        const criteria: string = await this._driver.executeScript<string>('return await navigator.clipboard.readText();');
+        await this.search(criteria);
+    }    
 }
