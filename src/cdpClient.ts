@@ -11,9 +11,11 @@ export class CDPClient {
      */
     public async init(port: number): Promise<void> {
         try {
-            this._client = await CDP({ port });
+            if (!this._client) {
+                this._client = await CDP({ port });
 
-            logger.info('CDP Session created using port: ' + port);
+                logger.info('CDP Session created using port: ' + port);
+            }
         } catch (e) {
             logger.error('CDP Session not created! due to: ' + e);
             throw e;
@@ -31,8 +33,15 @@ export class CDPClient {
      * Closes the CDP client connection
      */
     public async close(): Promise<void> {
-        if (this._client) {
-            await this._client.close()
+        try {
+            if (this._client) {
+                await this._client.close();
+            }
+        } catch (e) {
+            logger.error('CDP Session not closed! due to: ' + e);
+            throw e;
+        } finally {
+            this._client = undefined;
         }
     }
 }

@@ -50,7 +50,7 @@
     "axios": "^0.25.0",
     "chrome-har": "^0.12.0",
     "chrome-remote-interface": "^0.31.3",
-    "devtools-protocol": "0.0.999451",
+    "devtools-protocol": "0.0.1055124",
     "lighthouse": "9.6.6",
     "puppeteer": "^16.2.0",
     "winston": "^3.3.3"
