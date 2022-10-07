@@ -181,7 +181,7 @@ test('Test performance', async () => {
 
     const res = await lighthouse.stopTrace();
 
-    lighthouse.generateFlowReport('lighthouse.html');
+    await lighthouse.generateFlowReport('lighthouse.html');
 
     await driver.quit();
     
