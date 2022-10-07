@@ -44,16 +44,13 @@ export class Tracing extends TraceOperations {
             if (this._client) {
                 await new Promise((resolve, reject) => {
                     this._client.on('Tracing.tracingComplete', _ => {
-
                       resolve(this._events);
                       if (this._traceFileName) {
                         fs.writeFileSync(this._traceFileName, JSON.stringify(this._events, null, 2))
                       }
                     });
-              
                     this._client.send('Tracing.end').catch(reject);
                   });
-
                 return this._events;
             }
         } catch (e) {
