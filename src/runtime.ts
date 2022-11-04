@@ -21,12 +21,10 @@ export class Runtime extends TraceOperations {
      */
     public async startTrace(): Promise<void> {
         try {
-            if (this._client) {
-                await this._client.send('Runtime.enable');
-                this._client['Runtime.consoleAPICalled']((event: Protocol.Runtime.ConsoleAPICalledEvent) => {
-                    this._consoleLogEntries.push(event);
-                });
-            }
+            await this._client.send('Runtime.enable');
+            this._client['Runtime.consoleAPICalled']((event: Protocol.Runtime.ConsoleAPICalledEvent) => {
+                this._consoleLogEntries.push(event);
+            });
         } catch (e) {
             logger.error(e);
             throw e;
@@ -38,18 +36,15 @@ export class Runtime extends TraceOperations {
      */
     public async stopTrace(): Promise<Protocol.Runtime.ConsoleAPICalledEvent[]> {
         try {
-            if (this._client) {
-                if (this._traceFileName) {
-                    fs.writeFileSync(this._traceFileName, JSON.stringify(this._consoleLogEntries));
-                }
-                return this._consoleLogEntries;
+            if (this._traceFileName) {
+                fs.writeFileSync(this._traceFileName, JSON.stringify(this._consoleLogEntries));
             }
+            return this._consoleLogEntries;
         } catch (e) {
             logger.error(e);
             throw e;
         } finally {
             await this._client.send('Runtime.disable');
         }
-        return [];
     }
 }

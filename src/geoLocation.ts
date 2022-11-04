@@ -16,9 +16,7 @@ export class GeoLocation {
      */
     async emulateGeoLocation(coordinates: Coordinates): Promise<void> {
         try {
-            if (this._client) {
-                await this._client.Emulation.setGeolocationOverride(coordinates);
-            }
+            await this._client.Emulation.setGeolocationOverride(coordinates);
         } catch (e) {
             logger.error(e);
             throw e;

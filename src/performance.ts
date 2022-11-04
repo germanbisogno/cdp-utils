@@ -23,19 +23,16 @@ export class Performance extends TraceOperations {
      */
     public async startTrace(): Promise<Protocol.Performance.GetMetricsResponse> {
         try {
-            if (this._client) {
-                await this._client.send("Performance.enable");
-                const metrics = await this.getMetrics();
-                if (this._startTraceFileName) {
-                    fs.writeFileSync(this._startTraceFileName, JSON.stringify(metrics))
-                }
-                return metrics;
+            await this._client.send("Performance.enable");
+            const metrics = await this.getMetrics();
+            if (this._startTraceFileName) {
+                fs.writeFileSync(this._startTraceFileName, JSON.stringify(metrics))
             }
+            return metrics;
         } catch (e) {
             logger.error(e);
             throw e;
         }
-        return { metrics: [] };
     }
 
     /**
@@ -44,20 +41,17 @@ export class Performance extends TraceOperations {
      */
     public async stopTrace(): Promise<Protocol.Performance.GetMetricsResponse> {
         try {
-            if (this._client) {
-                const metrics = await this.getMetrics();
-                if (this._endTraceFileName) {
-                    fs.writeFileSync(this._endTraceFileName, JSON.stringify(metrics))
-                }
-                return metrics;
+            const metrics = await this.getMetrics();
+            if (this._endTraceFileName) {
+                fs.writeFileSync(this._endTraceFileName, JSON.stringify(metrics))
             }
+            return metrics;
         } catch (e) {
             logger.error(e);
             throw e;
         } finally {
             await this._client.send("Performance.disable");
         }
-        return { metrics: [] };
     }
 
     /**
@@ -65,10 +59,12 @@ export class Performance extends TraceOperations {
      * @returns response metrics
      */
     private async getMetrics(): Promise<Protocol.Performance.GetMetricsResponse> {
-        if (this._client) {
+        try {
             const response = await this._client.send('Performance.getMetrics');
             return response;
+        } catch (e) {
+            logger.error(e);
+            throw e;
         }
-        return { metrics: [] };
     }
 }
