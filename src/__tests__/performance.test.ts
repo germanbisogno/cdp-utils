@@ -1,46 +1,48 @@
-import { Builder } from "selenium-webdriver";
-import * as chrome from "selenium-webdriver/chrome";
+import { Builder } from 'selenium-webdriver';
+import * as chrome from 'selenium-webdriver/chrome';
 import 'chromedriver';
 import { GooglePage } from '../pages/googlePage';
 import { Performance } from '../performance';
 import { CDPClient } from '../cdpClient';
 import { getFreePort } from 'endpoint-utils';
-import { cdpConfig } from "../config/cdpConfig";
+import { cdpConfig } from '../config/cdpConfig';
 
 jest.setTimeout(cdpConfig.maxTimeout);
 
 test('Test Performance', async () => {
+  const port = await getFreePort();
+  const options = new chrome.Options();
 
-    const port = await getFreePort();
-    const options = new chrome.Options();
+  options.addArguments(`--remote-debugging-port=${port}`);
 
-    options.addArguments(`--remote-debugging-port=${port}`);
+  const driver = await new Builder()
+    .forBrowser('chrome')
+    .setChromeOptions(options)
+    .build();
 
-    const driver = await new Builder().forBrowser('chrome')
-        .setChromeOptions(options)
-        .build();
+  const googlePage = new GooglePage(driver);
 
-    const googlePage = new GooglePage(driver);
+  const cdpClient = new CDPClient();
+  await cdpClient.init(port);
 
-    const cdpClient = new CDPClient();
-    await cdpClient.init(port);
+  const performance = new Performance(
+    cdpClient,
+    'startTrace.json',
+    'endTrace.json'
+  );
 
-    const performance = new Performance(cdpClient, 'startTrace.json', 'endTrace.json');
+  const perfStartResults = await performance.startTrace();
 
-    const perfStartResults = await performance.startTrace();
+  await driver.get('https://www.google.com');
 
-    await driver.get("https://www.google.com");
+  await googlePage.search('test');
 
-    await googlePage.search('test');
+  const perfEndResults = await performance.stopTrace();
 
-    const perfEndResults = await performance.stopTrace();
+  expect(perfStartResults.metrics.length).toBeGreaterThan(0);
+  expect(perfEndResults.metrics.length).toBeGreaterThan(0);
 
-    expect(perfStartResults.metrics.length).toBeGreaterThan(0);
-    expect(perfEndResults.metrics.length).toBeGreaterThan(0);
+  await cdpClient.close();
 
-    await cdpClient.close();
-
-    await driver.quit()
-
+  await driver.quit();
 });
-

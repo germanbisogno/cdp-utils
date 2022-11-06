@@ -1,5 +1,7 @@
-import Protocol from "devtools-protocol";
+import Protocol from 'devtools-protocol';
 
 export abstract class BrowserOperations {
-    abstract grantPermissions(grantPermissionRequest: Protocol.Browser.GrantPermissionsRequest): Promise<void>;
+  abstract grantPermissions(
+    grantPermissionRequest: Protocol.Browser.GrantPermissionsRequest
+  ): Promise<void>;
 }

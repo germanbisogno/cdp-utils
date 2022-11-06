@@ -1,45 +1,43 @@
-import { Builder } from "selenium-webdriver";
-import * as chrome from "selenium-webdriver/chrome";
+import { Builder } from 'selenium-webdriver';
+import * as chrome from 'selenium-webdriver/chrome';
 import 'chromedriver';
 import { GooglePage } from '../pages/googlePage';
 import { Network } from '../network';
 import { CDPClient } from '../cdpClient';
 import { getFreePort } from 'endpoint-utils';
-import { Har } from "har-format";
-import { cdpConfig } from "../config/cdpConfig";
+import { Har } from 'har-format';
+import { cdpConfig } from '../config/cdpConfig';
 
 jest.setTimeout(cdpConfig.maxTimeout);
 
 test('Test Network', async () => {
+  const port = await getFreePort();
+  const options = new chrome.Options();
 
-    const port = await getFreePort();
-    const options = new chrome.Options();
+  options.addArguments(`--remote-debugging-port=${port}`);
 
-    options.addArguments(`--remote-debugging-port=${port}`);
+  const driver = await new Builder()
+    .forBrowser('chrome')
+    .setChromeOptions(options)
+    .build();
 
-    const driver = await new Builder().forBrowser('chrome')
-        .setChromeOptions(options)
-        .build();
+  const googlePage = new GooglePage(driver);
 
-    const googlePage = new GooglePage(driver);
+  const cdpClient = new CDPClient();
+  await cdpClient.init(port);
 
-    const cdpClient = new CDPClient();
-    await cdpClient.init(port);
+  const network = new Network(cdpClient, 'network.har');
 
-    const network = new Network(cdpClient, 'network.har');
+  await network.startTrace();
 
-    await network.startTrace();
+  await driver.get('https://www.google.com');
 
-    await driver.get("https://www.google.com");
+  await googlePage.search('test');
 
-    await googlePage.search('test');
+  const networkResults: Har = await network.stopTrace();
+  expect(networkResults.log.entries.length).toBeGreaterThan(0);
 
-    const networkResults: Har = await network.stopTrace();
-    expect(networkResults.log.entries.length).toBeGreaterThan(0);
+  await cdpClient.close();
 
-    await cdpClient.close();
-
-    await driver.quit()
-
+  await driver.quit();
 });
-
