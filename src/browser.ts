@@ -18,9 +18,7 @@ export class Browser extends BrowserOperations {
      */
     public async grantPermissions(grantPermissionRequest: Protocol.Browser.GrantPermissionsRequest): Promise<void> {
         try {
-            if (this._client) {
-                await this._client.send('Browser.grantPermissions', grantPermissionRequest);
-            }
+            await this._client.send('Browser.grantPermissions', grantPermissionRequest);
         } catch (e) {
             logger.error(e);
             throw e;
