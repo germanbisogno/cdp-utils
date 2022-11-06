@@ -90,15 +90,13 @@ export class Network extends TraceOperations {
      */
     public async startTrace(): Promise<void> {
         try {
-            if (this._client) {
-                await this._client.send('Page.enable');
-                await this._client.send('Network.enable');
-                observe.forEach(method => {
-                    this._client.on(method, params => {
-                        this._events.push({ method, params });
-                    });
+            await this._client.send('Page.enable');
+            await this._client.send('Network.enable');
+            observe.forEach(method => {
+                this._client.on(method, params => {
+                    this._events.push({ method, params });
                 });
-            }
+            });
         } catch (e) {
             logger.error(e);
             throw e;
@@ -111,13 +109,11 @@ export class Network extends TraceOperations {
      */
     public async stopTrace(): Promise<Har> {
         try {
-            if (this._client) {
-                const har = await harFromMessages(this._events, { includeTextFromResponseBody: true });
-                if (this._traceFileName) {
-                    fs.writeFileSync(this._traceFileName, JSON.stringify(har));
-                }
-                return har;
+            const har = await harFromMessages(this._events, { includeTextFromResponseBody: true });
+            if (this._traceFileName) {
+                fs.writeFileSync(this._traceFileName, JSON.stringify(har));
             }
+            return har;
         } catch (e) {
             logger.error(e);
             throw e;
@@ -125,7 +121,6 @@ export class Network extends TraceOperations {
             await this._client.send('Page.disable');
             await this._client.send('Network.disable');
         }
-        return { log: { entries: [], version: '', creator: { name: '', version: '' } } }
     }
 
     /**
@@ -134,9 +129,7 @@ export class Network extends TraceOperations {
      */
     public async emulateNetworkConditions(networkConditions: NetworkConditions): Promise<void> {
         try {
-            if (this._client) {
-                await this._client.send('Network.emulateNetworkConditions', networkConditions);
-            }
+            await this._client.send('Network.emulateNetworkConditions', networkConditions);
         } catch (e) {
             logger.error(e);
             throw e;

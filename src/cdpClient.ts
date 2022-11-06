@@ -26,6 +26,7 @@ export class CDPClient {
      * Gets the CDP client connection
      */
     public get(): CDP.Client {
+        if (!this._client) throw new Error('CDP Client not initialized!');
         return this._client;
     }
 
