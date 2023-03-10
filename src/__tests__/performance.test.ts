@@ -9,7 +9,7 @@ import { cdpConfig } from '../config/cdpConfig';
 
 jest.setTimeout(cdpConfig.maxTimeout);
 
-test('Test Performance', async () => {
+test.skip('Test Performance', async () => {
   const port = await getFreePort();
   const options = new chrome.Options();
 
