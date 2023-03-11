@@ -17,7 +17,7 @@ export class DatabaseManager {
    */
   public static getDatabaseProvider(
     dBProvider: DBProvider = DBProvider.InfluxDB
-  ) {
+  ): DatabaseOperations {
     if (!this.databaseOperations) {
       switch (dBProvider) {
         case DBProvider.InfluxDB:

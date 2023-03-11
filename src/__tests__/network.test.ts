@@ -7,8 +7,6 @@ import { CDPClient } from '../cdpClient';
 import { getFreePort } from 'endpoint-utils';
 import { Har } from 'har-format';
 import { cdpConfig } from '../config/cdpConfig';
-import { DatabaseManager } from '../performance/databaseManager';
-import { Utils } from '../utils/transformHar';
 
 jest.setTimeout(cdpConfig.maxTimeout);
 
@@ -37,9 +35,6 @@ test('Test Network', async () => {
 
   const networkResults: Har = await network.stopTrace();
   expect(networkResults.log.entries.length).toBeGreaterThan(0);
-
-  const requests = Utils.transformHar(networkResults);
-  await DatabaseManager.getDatabaseProvider().sendRequests(requests);
 
   await cdpClient.close();
 

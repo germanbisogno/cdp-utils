@@ -9,7 +9,7 @@ import { getFreePort } from 'endpoint-utils';
 
 jest.setTimeout(cdpConfig.maxTimeout);
 
-test.skip('Test Browser', async () => {
+test('Test Browser', async () => {
   const port = await getFreePort();
   const options = new chrome.Options();
 
