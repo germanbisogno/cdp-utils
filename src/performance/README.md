@@ -30,5 +30,5 @@ The following example shows how to send your requests to a database:
 This time we will be showing the metrics for each request, then you will be able to analyze the response time in Grafana tool as the image below shows:
 
 <p align="center">
-  <img src="images/grafana_request_time.png" />
+  <img src="../images/grafana_request_time.png" />
 </p>
