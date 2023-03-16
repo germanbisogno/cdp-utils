@@ -5,11 +5,9 @@ import { GooglePage } from '../pages/googlePage';
 import { Runtime } from '../runtime';
 import { CDPClient } from '../cdpClient';
 import { getFreePort } from 'endpoint-utils';
-import { cdpConfig } from '../config/cdpConfig';
+import { expect } from 'chai';
 
-jest.setTimeout(cdpConfig.maxTimeout);
-
-test('Test Runtime', async () => {
+it('Test Runtime', async () => {
   const port = await getFreePort();
   const options = new chrome.Options();
 
@@ -41,9 +39,9 @@ test('Test Runtime', async () => {
 
   const consoleResults = await runtime.stopTrace();
 
-  expect(consoleResults.find((x) => x.type === 'error')).toBeDefined();
-  expect(consoleResults.find((x) => x.type === 'warning')).toBeDefined();
-  expect(consoleResults.find((x) => x.type === 'log')).toBeDefined();
+  expect(consoleResults.find((x) => x.type === 'error')).to.not.be.undefined;
+  expect(consoleResults.find((x) => x.type === 'warning')).to.not.be.undefined;
+  expect(consoleResults.find((x) => x.type === 'log')).to.not.be.undefined;
 
   await cdpClient.close();
 

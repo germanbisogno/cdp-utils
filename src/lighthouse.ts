@@ -1,13 +1,13 @@
+import * as LH from 'lighthouse';
+import { FlowResult, startFlow, UserFlow } from 'lighthouse';
 import { TraceOperations } from './traceOperations';
-import { startFlow } from 'lighthouse/lighthouse-core/fraggle-rock/api';
-import { RunnerResult } from 'lighthouse/types/externs';
 import * as fs from 'fs';
 import puppeteer from 'puppeteer';
 import axios from 'axios';
 
 export class Lighthouse extends TraceOperations {
-  private _flow: any;
-  private _report: any;
+  private _flow: UserFlow;
+  private _report: string;
   private _port: number;
   private _browser: puppeteer.Browser | undefined;
 
@@ -26,7 +26,7 @@ export class Lighthouse extends TraceOperations {
 
   public async initWorkFlow(
     name: string,
-    config: any,
+    config?: LH.Config,
     viewPort?: puppeteer.Viewport
   ) {
     /**
@@ -51,37 +51,32 @@ export class Lighthouse extends TraceOperations {
 
     this._flow = await startFlow(pages[0], {
       name,
-      configContext: {
-        settingsOverrides: config,
-      },
+      config,
     });
   }
 
   /**
    * Starts the trace wrapping startTimespan from lighthouse
-   * @param stepName
+   * @param stepName string step name
    */
   public async startTrace(stepName?: string): Promise<void> {
-    await this._flow.startTimespan({ stepName });
+    await this._flow.startTimespan({ name: stepName });
   }
 
   /**
    * Navigates to a url using lighthouse
    * @param url url to navigate
-   * @param stepOptions { stepName?: string }
+   * @param stepName string step name
    */
-  public async navigate(
-    url: string,
-    stepOptions?: { stepName?: string }
-  ): Promise<void> {
-    await this._flow.navigate(url, stepOptions);
+  public async navigate(url: string, stepName?: string): Promise<void> {
+    return this._flow.navigate(url, { name: stepName });
   }
 
   /**
    * Stop tracing wrapping endTimespan from lighthouse and return lighthouse flow report
    * @returns LH Runner results
    */
-  public async stopTrace(): Promise<RunnerResult[]> {
+  public async stopTrace(): Promise<FlowResult.Step[]> {
     await this._flow.endTimespan();
     const results = await this._flow.createFlowResult();
     return results.steps;
@@ -101,6 +96,6 @@ export class Lighthouse extends TraceOperations {
    * @param stepName name of the step
    */
   public async snapshot(stepName?: string): Promise<void> {
-    await this._flow.snapshot({ stepName });
+    await this._flow.snapshot({ name: stepName });
   }
 }

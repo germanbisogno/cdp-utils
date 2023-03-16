@@ -4,12 +4,10 @@ import 'chromedriver';
 import { CDPClient } from '../cdpClient';
 import { GooglePage } from '../pages/googlePage';
 import { Tracing } from '../tracing';
-import { cdpConfig } from '../config/cdpConfig';
 import { getFreePort } from 'endpoint-utils';
+import { expect } from 'chai';
 
-jest.setTimeout(cdpConfig.maxTimeout);
-
-test('Test Tracing', async () => {
+it('Test Tracing', async () => {
   const port = await getFreePort();
   const options = new chrome.Options();
 
@@ -35,7 +33,7 @@ test('Test Tracing', async () => {
 
   const tracingResults = await tracing.stopTrace();
 
-  expect(tracingResults.length).toBeGreaterThan(0);
+  expect(tracingResults.length).greaterThan(0);
 
   await cdpClient.close();
 

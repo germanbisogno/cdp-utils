@@ -4,12 +4,10 @@ import 'chromedriver';
 import { GooglePage } from '../pages/googlePage';
 import { Lighthouse } from '../lighthouse';
 import { getFreePort } from 'endpoint-utils';
-import * as DesktopConfig from 'lighthouse/lighthouse-core/config/desktop-config.js';
-import { cdpConfig } from '../config/cdpConfig';
+import { desktopConfig } from 'lighthouse';
+import { expect } from 'chai';
 
-jest.setTimeout(cdpConfig.maxTimeout);
-
-test('Test Lighthouse', async () => {
+it('Test Lighthouse', async () => {
   const port = await getFreePort();
   const options = new chrome.Options();
 
@@ -25,7 +23,7 @@ test('Test Lighthouse', async () => {
 
   const lighthouse = new Lighthouse(port);
 
-  await lighthouse.initWorkFlow('Google search', DesktopConfig.settings);
+  await lighthouse.initWorkFlow('Google search', desktopConfig);
 
   await lighthouse.navigate('https://www.google.com');
 
@@ -40,6 +38,6 @@ test('Test Lighthouse', async () => {
   await lighthouse.generateFlowReport('lighthouse.html');
 
   res.forEach((step) => {
-    expect(step.lhr.categories.performance.score).toBeGreaterThanOrEqual(0.8);
+    expect(step.lhr.categories.performance.score).greaterThanOrEqual(0.8);
   });
 });
