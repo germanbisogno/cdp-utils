@@ -5,11 +5,9 @@ import { GooglePage } from '../pages/googlePage';
 import { Performance } from '../performance';
 import { CDPClient } from '../cdpClient';
 import { getFreePort } from 'endpoint-utils';
-import { cdpConfig } from '../config/cdpConfig';
+import { expect } from 'chai';
 
-jest.setTimeout(cdpConfig.maxTimeout);
-
-test('Test Performance', async () => {
+it('Test Performance', async () => {
   const port = await getFreePort();
   const options = new chrome.Options();
 
@@ -39,8 +37,8 @@ test('Test Performance', async () => {
 
   const perfEndResults = await performance.stopTrace();
 
-  expect(perfStartResults.metrics.length).toBeGreaterThan(0);
-  expect(perfEndResults.metrics.length).toBeGreaterThan(0);
+  expect(perfStartResults.metrics.length).greaterThan(0);
+  expect(perfEndResults.metrics.length).greaterThan(0);
 
   await cdpClient.close();
 

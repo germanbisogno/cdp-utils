@@ -1,13 +1,14 @@
 {
     "compilerOptions": {
         "target": "es5",
-        "module": "commonjs",
+        "module": "es6",
         "declaration": true,
         "outDir": "./dist",
         "resolveJsonModule": true,
         "esModuleInterop": true,
         "noImplicitAny": false,
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "moduleResolution": "node"
     },
     "include": [
         "src/**/*.ts",

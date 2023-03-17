@@ -4,12 +4,9 @@ import 'chromedriver';
 import { CDPClient } from '../cdpClient';
 import { GooglePage } from '../pages/googlePage';
 import { Browser } from '../browser';
-import { cdpConfig } from '../config/cdpConfig';
 import { getFreePort } from 'endpoint-utils';
 
-jest.setTimeout(cdpConfig.maxTimeout);
-
-test('Test Browser', async () => {
+it('Test Browser', async () => {
   const port = await getFreePort();
   const options = new chrome.Options();
 

@@ -1,6 +1,6 @@
 import Protocol from 'devtools-protocol';
 import { Har } from 'har-format';
-import { RunnerResult } from 'lighthouse/types/externs';
+import { FlowResult } from 'lighthouse';
 
 export abstract class TraceOperations {
   abstract startTrace(
@@ -11,6 +11,6 @@ export abstract class TraceOperations {
     | Promise<Protocol.Runtime.ConsoleAPICalledEvent[]>
     | Promise<Protocol.Performance.GetMetricsResponse>
     | Promise<Protocol.Tracing.DataCollectedEvent[]>
-    | Promise<RunnerResult[]>
+    | Promise<FlowResult.Step[]>
     | Promise<Har>;
 }
