@@ -64,7 +64,6 @@
     "chrome-remote-interface": "^0.32.1",
     "devtools-protocol": "0.0.1055124",
     "lighthouse": "10.0.2",
-    "lighthouse-logger": "^1.3.0",
     "puppeteer": "^16.2.0",
     "winston": "^3.3.3"
   },
