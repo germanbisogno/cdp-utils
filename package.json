@@ -10,7 +10,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "mocha --require ts-node/register",
+    "test": "mocha --require ts-node/register --parallel",
     "format": "prettier --write src/**/*.ts",
     "prebuild": "npm run lint && npm run format",
     "lint": "eslint --fix ./src/**/*.ts",
