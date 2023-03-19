@@ -240,7 +240,7 @@ it('Test performance', async () => {
 
 ```
 
-## User flow
+#### User flow
 
 Finally, Lighthouse will produce a report showing the user flow similar to the following:
 
