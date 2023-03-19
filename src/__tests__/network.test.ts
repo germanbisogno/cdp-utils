@@ -8,7 +8,7 @@ import { getFreePort } from 'endpoint-utils';
 import { Har } from 'har-format';
 import { expect } from 'chai';
 
-xit('Test Network', async () => {
+it('Test Network', async () => {
   const port = await getFreePort();
   const options = new chrome.Options();
 

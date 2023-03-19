@@ -7,7 +7,7 @@ import { CDPClient } from '../cdpClient';
 import { getFreePort } from 'endpoint-utils';
 import { expect } from 'chai';
 
-xit('Test Performance', async () => {
+it('Test Performance', async () => {
   const port = await getFreePort();
   const options = new chrome.Options();
 
