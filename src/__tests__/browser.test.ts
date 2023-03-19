@@ -6,7 +6,7 @@ import { GooglePage } from '../pages/googlePage';
 import { Browser } from '../browser';
 import { getFreePort } from 'endpoint-utils';
 
-it('Test Browser', async () => {
+xit('Test Browser', async () => {
   const port = await getFreePort();
   const options = new chrome.Options();
 

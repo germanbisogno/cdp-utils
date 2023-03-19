@@ -52,6 +52,8 @@ export class Lighthouse extends TraceOperations {
     this._flow = await startFlow(pages[0], {
       name,
       config,
+      // to prevent Lighthouse from changing the screen dimensions.
+      flags: { screenEmulation: { disabled: true } },
     });
   }
 

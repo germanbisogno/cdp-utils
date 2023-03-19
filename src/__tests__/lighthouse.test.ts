@@ -12,6 +12,7 @@ it('Test Lighthouse', async () => {
   const options = new chrome.Options();
 
   options.addArguments(`--remote-debugging-port=${port}`);
+  options.addArguments('--start-maximized');
   options.excludeSwitches('--enable-logging');
 
   const driver = await new Builder()
@@ -23,7 +24,10 @@ it('Test Lighthouse', async () => {
 
   const lighthouse = new Lighthouse(port);
 
-  await lighthouse.initWorkFlow('Google search', desktopConfig);
+  await lighthouse.initWorkFlow('Google search', desktopConfig, {
+    width: 1920,
+    height: 1080,
+  });
 
   await lighthouse.navigate('https://www.google.com');
 

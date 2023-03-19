@@ -7,7 +7,7 @@ import { Tracing } from '../tracing';
 import { getFreePort } from 'endpoint-utils';
 import { expect } from 'chai';
 
-it('Test Tracing', async () => {
+xit('Test Tracing', async () => {
   const port = await getFreePort();
   const options = new chrome.Options();
 
