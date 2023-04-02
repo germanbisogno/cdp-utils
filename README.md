@@ -240,6 +240,16 @@ it('Test performance', async () => {
 
 ```
 
+#### User flow
+
+Finally, Lighthouse will produce a report showing the user flow similar to the following one.
+
+For more information about Lighthouse, please check [here](https://developer.chrome.com/docs/lighthouse/overview/).
+
+<p align="center">
+  <img src="images/lighthouse-user-flow.png" />
+</p>
+
 ## Install
 
 ```sh
