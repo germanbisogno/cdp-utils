@@ -37,7 +37,7 @@ export class Lighthouse extends TraceOperations {
      * https://github.com/GoogleChrome/lighthouse/issues/11313
      */
     const req = await axios.get(
-      `http://${'localhost'}:${this._port}/json/version`
+      `http://127.0.0.1:${this._port}/json/version`
     );
     this._browser = await puppeteer.connect({
       browserWSEndpoint: req.data.webSocketDebuggerUrl,

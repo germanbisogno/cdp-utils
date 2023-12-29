@@ -35,16 +35,16 @@ export class InfluxDBManager {
    */
   public async sendRequests(requests: Request[]): Promise<void> {
     try {
-      for (let i = 0; i < requests.length; i++) {
-        const ts = new Date(requests[i].startedDateTime);
+      for (const element of requests) {
+        const ts = new Date(element.startedDateTime);
         /**
          * Create a point and write it to the buffer.
          **/
         const point1 = new Point('request')
           .timestamp(ts)
           .tag('host', os.hostname())
-          .tag('requestUrl', requests[i].requestUrl)
-          .floatField('duration', requests[i].time);
+          .tag('requestUrl', element.requestUrl)
+          .floatField('duration', element.time);
 
         this.writeApi.writePoint(point1);
       }

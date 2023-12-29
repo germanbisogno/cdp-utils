@@ -6,6 +6,7 @@ import { NetworkConditions } from './interfaces/networkConditions';
 import { Har } from 'har-format';
 import { CDPClient } from './cdpClient';
 import CDP from 'chrome-remote-interface';
+import Protocol from 'devtools-protocol';
 
 // event types to observe
 const observe = [
@@ -95,6 +96,9 @@ export class Network extends TraceOperations {
       observe.forEach((method) => {
         this._client.on(method, (params) => {
           this._events.push({ method, params });
+          if (logger.isDebugEnabled) {
+            this.logEvents(method, params);
+          }
         });
       });
     } catch (e) {
@@ -122,6 +126,23 @@ export class Network extends TraceOperations {
     } finally {
       await this._client.send('Page.disable');
       await this._client.send('Network.disable');
+    }
+  }
+
+  /**
+   * Logging specific network events
+   * @param method event method being called
+   * @param params object containing event's data
+   */
+  public logEvents(method: string, params: object) {
+    let response: Protocol.Network.Response;
+    switch (method) {
+      case 'Network.responseReceived':
+        response = params['response'] as Protocol.Network.Response;
+        logger.debug(response.url);
+        logger.debug(response.status);
+        break;
+      default:
     }
   }
 
