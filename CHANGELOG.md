@@ -6,7 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- Adding new dependency chrome-har-capturer to use fromLog API to export to HAR format in Network tracing
+- Adding new dependency chrome-har-capturer to use fromLog API to export to HAR format in Network tracing.
+- Including websocket events to observe and include in Har file.
 
 ## [1.5.0] - 2023-03-16
 
