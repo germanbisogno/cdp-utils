@@ -1,18 +1,16 @@
 import * as LH from 'lighthouse';
 import { FlowResult, startFlow, UserFlow } from 'lighthouse';
-import { TraceOperations } from './traceOperations';
 import * as fs from 'fs';
 import puppeteer from 'puppeteer';
 import axios from 'axios';
 
-export class Lighthouse extends TraceOperations {
+export class Lighthouse {
   private _flow: UserFlow;
   private _report: string;
   private _port: number;
   private _browser: puppeteer.Browser | undefined;
 
   constructor(port: number) {
-    super();
     this._port = port;
   }
 

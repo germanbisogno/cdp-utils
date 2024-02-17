@@ -1,19 +1,20 @@
 import * as fs from 'fs';
-import { harFromMessages } from 'chrome-har';
 import { TraceOperations } from './traceOperations';
 import { logger } from './utils/logger';
 import { NetworkConditions } from './interfaces/networkConditions';
 import { Har } from 'har-format';
 import { CDPClient } from './cdpClient';
-import CDP from 'chrome-remote-interface';
 import Protocol from 'devtools-protocol';
+import { fromLog } from 'chrome-har-capturer';
+import { cdpConfig } from './config/cdpConfig';
 
 // event types to observe
 const observe = [
   'Page.loadEventFired',
   'Page.domContentEventFired',
+  'Page.navigatedWithinDocument',
   'Page.frameStartedLoading',
-  'Page.frameAttached',
+  'Page.frameAttached',  
   'Network.requestWillBeSent',
   'Network.requestServedFromCache',
   'Network.dataReceived',
@@ -22,6 +23,13 @@ const observe = [
   'Network.loadingFinished',
   'Network.loadingFailed',
   'Network.requestFinished',
+  'Network.webSocketFrameReceived',
+  'Network.webSocketFrameSent',
+  'Network.getResponseBody',
+  'Network.webSocketWillSendHandshakeRequest',
+  'Network.webSocketHandshakeResponseReceived',
+  'Network.webSocketClosed',
+  'Network.resourceChangedPriority'
 ];
 
 export const NETWORK_PRESETS = {
@@ -78,11 +86,9 @@ export const NETWORK_PRESETS = {
 export class Network extends TraceOperations {
   private _traceFileName: string;
   protected _events: { method: string; params: object }[] = [];
-  private _client: CDP.Client;
 
   constructor(cdpClient: CDPClient, traceFileName = '') {
-    super();
-    this._client = cdpClient.get();
+    super(cdpClient);
     this._traceFileName = traceFileName;
   }
 
@@ -113,9 +119,7 @@ export class Network extends TraceOperations {
    */
   public async stopTrace(): Promise<Har> {
     try {
-      const har = await harFromMessages(this._events, {
-        includeTextFromResponseBody: true,
-      });
+      const har = await fromLog(cdpConfig.url, this._events);
       if (this._traceFileName) {
         fs.writeFileSync(this._traceFileName, JSON.stringify(har));
       }
