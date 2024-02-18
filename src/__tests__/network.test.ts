@@ -7,38 +7,41 @@ import { getFreePort } from 'endpoint-utils';
 import { Har } from 'har-format';
 import { expect } from 'chai';
 import { WebSocketPage } from '../pages/webSocketPage';
-import express, { Express } from "express";
+import express, { Express } from 'express';
 import { WebSocketServer } from 'ws';
 
 let server;
 
-before(function(){
+before(function () {
   const app: Express = express();
-  server = app.use((req, res) =>
-      res.sendFile('./websocket-client.html', { root: "./src/__tests__/server" })
-  ).listen(3000, () => console.log(`Listening on ${3000}`))
-
-    const sockserver = new WebSocketServer({ port: 443 })
-    sockserver.on('connection', ws => {
-    console.log('New client connected!')
-    ws.send('connection established')
-    ws.on('close', () => console.log('Client has disconnected!'))
-    ws.on('message', data => {
-      sockserver.clients.forEach(client => {
-        console.log(`distributing message: ${data}`)
-        client.send(`${data}`)
+  server = app
+    .use((req, res) =>
+      res.sendFile('./websocket-client.html', {
+        root: './src/__tests__/server',
       })
-    })
+    )
+    .listen(3000, () => console.log(`Listening on ${3000}`));
+
+  const sockserver = new WebSocketServer({ port: 443 });
+  sockserver.on('connection', (ws) => {
+    console.log('New client connected!');
+    ws.send('connection established');
+    ws.on('close', () => console.log('Client has disconnected!'));
+    ws.on('message', (data) => {
+      sockserver.clients.forEach((client) => {
+        console.log(`distributing message: ${data}`);
+        client.send(`${data}`);
+      });
+    });
     ws.onerror = function () {
-      console.log('websocket error')
-    }
-  })
+      console.log('websocket error');
+    };
+  });
 });
 
 after(async () => {
   await server.close();
 });
-
 
 it('Test Network', async () => {
   const port = await getFreePort();
