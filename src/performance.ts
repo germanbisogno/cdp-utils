@@ -3,19 +3,17 @@ import { logger } from './utils/logger';
 import { Protocol } from 'devtools-protocol';
 import * as fs from 'fs';
 import { CDPClient } from './cdpClient';
-import CDP from 'chrome-remote-interface';
 
 export class Performance extends TraceOperations {
   private _startTraceFileName: string;
   private _endTraceFileName: string;
-  private _client: CDP.Client;
 
   constructor(
     cdpClient: CDPClient,
     startTraceFileName = '',
     endTraceFileName = ''
   ) {
-    super();
+    super(cdpClient);
     this._client = cdpClient.get();
     this._startTraceFileName = startTraceFileName;
     this._endTraceFileName = endTraceFileName;

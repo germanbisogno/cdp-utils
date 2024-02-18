@@ -3,16 +3,13 @@ import * as fs from 'fs';
 import { TraceOperations } from './traceOperations';
 import { Protocol } from 'devtools-protocol';
 import { CDPClient } from './cdpClient';
-import CDP from 'chrome-remote-interface';
 
 export class Runtime extends TraceOperations {
   private _consoleLogEntries: Protocol.Runtime.ConsoleAPICalledEvent[] = [];
   private _traceFileName: string;
-  private _client: CDP.Client;
 
   constructor(cdpClient: CDPClient, traceFileName = '') {
-    super();
-    this._client = cdpClient.get();
+    super(cdpClient);
     this._traceFileName = traceFileName;
   }
 

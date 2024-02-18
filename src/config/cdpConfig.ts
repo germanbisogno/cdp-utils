@@ -5,6 +5,7 @@ export interface CDPConfig {
   tracing: Protocol.Tracing.StartRequest;
   cdpPort: number;
   maxTimeout: number;
+  url: string;
 }
 
 export const cdpConfig: CDPConfig = JSON.parse(

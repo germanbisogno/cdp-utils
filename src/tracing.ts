@@ -1,5 +1,4 @@
 import * as fs from 'fs';
-import CDP from 'chrome-remote-interface';
 import { TraceOperations } from './traceOperations';
 import { logger } from './utils/logger';
 import { Protocol } from 'devtools-protocol';
@@ -8,12 +7,10 @@ import { cdpConfig } from './config/cdpConfig';
 
 export class Tracing extends TraceOperations {
   private _traceFileName: string;
-  private _client: CDP.Client;
   protected _events: Protocol.Tracing.DataCollectedEvent[] = [];
 
   constructor(cdpClient: CDPClient, traceFileName = '') {
-    super();
-    this._client = cdpClient.get();
+    super(cdpClient);
     this._traceFileName = traceFileName;
   }
 
